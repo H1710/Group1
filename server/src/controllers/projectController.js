@@ -15,15 +15,15 @@ const getListProjectsBy= async (req, res) => {
     const namep = req.body['name'];
     const statusp= req.body['status'];
     const customerp = req.body['customer'];
-    const number = req.body['number'];
+    const number = req.body['project_number'];
      
      await getProjectsBy(namep, statusp, customerp, number)
     .then(data => {
         if (data && data.length > 0){
-            res.send(data);
+            res.render('home', {Projects: data});
         }else{
             res.status(404).send({
-                message: `Cannot find Project with given name= ${namep} and status= ${statusp} and cutomer= ${customerp} and number = ${number}.`  
+                message: `Cannot find Project with given name= ${namep} and status= ${statusp} and customer= ${customerp} and number = ${number}.`  
             })
         }
     })
@@ -37,7 +37,7 @@ const getListProjectsBy= async (req, res) => {
 const postCreateProject = async (req, res) => {
     console.log(req.body);
     const {
-        proId,
+        
         group_id,
         project_number,
         name,
@@ -49,9 +49,9 @@ const postCreateProject = async (req, res) => {
     } = req.body;
      
     let [results, fields] = await connection.query(
-    ` INSERT INTO project (id,  group_id, project_number, name, customer, 
-        status, start_date, end_date, version) values (?,?,?,?,?,?,?,?,?)`,
-    [proId,  group_id, project_number, name, customer, 
+    ` INSERT INTO project (  group_id, project_number, name, customer, 
+        status, start_date, end_date, version) values (?,?,?,?,?,?,?,?)`,
+    [ group_id, project_number, name, customer, 
         status, startDate, endDate, version]
     );
      
