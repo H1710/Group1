@@ -4,10 +4,13 @@ const express = require('express');
 const configViewEngine = require('./config/viewEngine');
 const webRoutes = require('./routes/web');
 const projectRoutes = require('./routes/project');
+const bodyParser = require('body-parser');
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+  }));
 configViewEngine(app);
 
 app.use('/', webRoutes);
