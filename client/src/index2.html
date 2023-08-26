@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/Group1/client/dist/output.css"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- header -->
+    <div class="header flex pt-10 pb-4">
+        <!-- logo -->
+        <div class="flex-auto ml-32">
+            <img src="/Group1/Guideline/logo_elca.png" alt="logo">
+        </div>
+
+        <!-- title -->
+        <div class="flex-auto mr-72">
+            <h1 class="font-serif font-bold text-3xl text-gray-400">Project Information Management</h1>
+        </div>
+
+        <!-- language -->
+        <div class="flex-auto">
+            <div class="flex">
+                <a  class="flex-initial text-gray-400"href="">EN</a>
+                <p class="flex-initial text-blue-400">|</p>
+                <a class="flex-initial text-blue-400" href="">FR</a>
+            </div>
+        </div>
+
+        <!-- help -->
+        <div class="flex-auto text-blue-400">
+            <a href="">Help</a>
+        </div>
+
+        <!-- log-out -->
+        <div class="flex-auto text-gray-400">
+            <a href="">Log out</a>
+        </div>
+    </div>
+    <hr>
+
+    <!-- body -->
+
+    <div class="flex">
+        <div class="part1 flex-initial mr-[100px] ml-[150px]">
+            <div>
+                <h1 class="font-bold text-[18px] text-blue-500 mt-6 mb-8">Projects list</h1>
+                <h2 class="font-sans text-[18px] text-[#2F85FA] mb-3">New</h2>
+                <h3 class="font-sans text-[14px] text-[#333333] mb-3">Project</h3>
+                <h3 class="font-sans text-[14px] text-[#666666] mb-3">Customer</h3>
+                <h3 class="font-sans text-[14px] text-[#666666] mb-3">Supplier</h3>
+            </div>
+        </div>
+        <div class="border-l part2 flex-initial">
+            <div class="mb-[30px] ml-10 mr-20">
+                <h1 class="font-bold text-[18px] text-gray-500 mt-6 mb-4">Project List</h1>
+                <hr class="w-[1200px]">
+
+                <div class="mt-7">
+                    <form class="flex" action="">
+                        <input class="rounded-lg border-gray-400 w-[450px] h-[30px] placeholder-gray-500 border" type="text" placeholder="Project number, name, customer name">
+                        <select class="rounded-lg border-gray-400 w-[250px] h-[30px] placeholder-gray-500 border ml-5" name="" id=""></select>
+                        <button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[40px] py-[5px] border border-blue-700 rounded ml-10">Search Project</button>
+                        <Button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[40px] py-[5px] border border-blue-700 rounded ml-10">Reset Search</Button>
+                    </form>
+                </div>
+
+
+                <table class="border mt-9">
+                    <th>
+                        <td class="border-l border-b text-center">Number</td>
+                        <td class="border-l border-b text-center">Name</td>
+                        <td class="border-l border-b text-center">Status</td>
+                        <td class="border-l border-b text-center">Customer</td>
+                        <td class="border-l border-b text-center">Start Date</td>
+                        <td class="border-l border-b text-center">Delete</td>
+                    </th>
+                    <tr class="">
+                        <td class="border-l w-[40px] h-[15px] border-t text-center"><input type="checkbox" name="" id=""></td>
+                        <td class="border-l w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">3116</td>
+                        <td class="border-l w-[550px] text-center font-sans text-[14px] font-semibold text-[#666666]">Facturation/Encaissements</td>
+                        <td class="border-l w-[200px] text-center font-sans text-[14px] font-semibold text-[#666666]">New</td>
+                        <td class="border-l w-[350px] text-center font-sans text-[14px] font-semibold text-[#666666]">Les Retaites Popularies</td>
+                        <td class="border-l w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">25.02.2004</td>
+                        <td class="border-l w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]"><button><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                          </svg>
+                          </button></td>
+                    </tr>
+                </table>
+                <table class="border mt-8 float-right">
+                    <tr>
+                        <td class="border-l w-[40px] h-[40px]"><button><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062A1.125 1.125 0 013 16.81V8.688zM12.75 8.688c0-.864.933-1.405 1.683-.977l7.108 4.062a1.125 1.125 0 010 1.953l-7.108 4.062a1.125 1.125 0 01-1.683-.977V8.688z" />
+                          </svg></button>
+                          </td>
+                        <td class="border-l w-[40px] h-[40px] text-center"><button>1</button></td>
+                        <td class="border-l w-[40px] h-[40px] text-center"><button>2</button></td>
+                        <td class="border-l w-[40px] h-[40px] text-center"><button>3</button></td>
+                        <td class="border-l w-[40px] h-[40px] text-center"><button>4</button></td>
+                        <td class="border-l w-[40px] h-[40px] text-center"><button><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+                          </svg></button>
+                          </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
