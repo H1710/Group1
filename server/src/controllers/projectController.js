@@ -2,19 +2,38 @@
 const connection = require('../config/db');
 
 const {getAllProjects, getProjectById, updateProjectById,
-    deleteProjectById}
+    deleteProjectById, getProjectsBy}
 = require('../services/CRUDProject');
 
-const getHomePage = async (req, res) => {
-
+const getListProjects = async (req, res) => {
      const list = await getAllProjects()
-     
 //    return res.render('home', {ListProject : list});
      res.send({list});
-      
-     
 }
 
+const getListProjectsBy= async (req, res) => {
+    const namep = req.body['name'];
+    const statusp= req.body['status'];
+    const customerp = req.body['customer'];
+    const number = req.body['number'];
+     
+     await getProjectsBy(namep, statusp, customerp, number)
+    .then(data => {
+        if (data && data.length > 0){
+            res.send(data);
+        }else{
+            res.status(404).send({
+                message: `Cannot find Project with given name= ${namep} and status= ${statusp} and cutomer= ${customerp} and number = ${number}.`  
+            })
+        }
+    })
+    .catch (err => {
+        res.status(500).send({
+            message: `Error retrieving Project with given name= ${namep} and status= ${statusp} and cutomer= ${customerp} and number = ${number}.`  
+        });
+    });
+
+}
 const postCreateProject = async (req, res) => {
     console.log(req.body);
     const {
@@ -137,11 +156,12 @@ const postDeleteProject = async (req, res) => {
 
 }
 module.exports = {
-    getHomePage,
+    getListProjects,
     postCreateProject,
     getCreatePage,
     getUpdatePage, 
     postUpdateProject,
     postDeleteProject,
-    getDeletePage
+    getDeletePage,
+    getListProjectsBy
 }

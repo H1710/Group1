@@ -1,0 +1,42 @@
+# 
+# get http://localhost:3000/ 
+
+# list project
+# GET http://localhost:3000/api/v1/project/
+
+# create a new project => post
+POST  http://localhost:3000/api/v1/project/create HTTP/1.1
+Header-name: {project}
+Content-Type: application/json;
+{
+   "proId": "7",
+   "group_id": "2",
+   "project_number": "1963",
+    "name": "Project J",
+    "customer": "Barc GilKele", 
+     "status": "NEW", 
+     "startDate":"2021-6-17", 
+     "endDate": "2023-8-27",
+     "version": "3"
+}
+
+# get project to update
+# GET http://localhost:3000/api/v1/project/update/8 HTTP/1.1
+
+# # post project to update # "proId": "1",
+# POST http://localhost:3000/api/v1/project/update/  HTTP/1.1
+# # Header-Name: header-value
+# Content-Type: application/json 
+# {  
+#       "proId": "1",
+#    "group_id": "1",
+#    "project_number": "2563",
+#     "name": "Project F",
+#     "customer": "Alert Mer", 
+#      "status": "NEW", 
+#      "startDate":"2023-7-17", 
+#      "endDate": "2023-8-20",
+#      "version": "1",
+# }
+
+ 

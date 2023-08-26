@@ -15,6 +15,16 @@ const getProjectById = async (proId) => {
     return project;
 }
 
+const getProjectsBy = async (name, status, customer, number) => {
+    
+    let [results, fields] = await connection.query(
+        `SELECT * FROM elca.project where name like ? and status like ? and customer like ? and project_number =?`,[`%${name}%`,`%${status}%`, `%${customer}%`, number ]
+    );
+    
+    let projects = results && results.length > 0 ? results: null;
+    return projects;
+}
+
 const updateProjectById = async (proId,  group_id, project_number, name, customer, 
     status, startDate, endDate,version) => {
   
@@ -40,6 +50,9 @@ const deleteProjectById = async (proId) => {
 module.exports = {
     getAllProjects,
     getProjectById,
+    getProjectsBy,
+    // getProjectsByStatus,
+    // getProjectsByCustomer,
     updateProjectById,
     deleteProjectById
 }
