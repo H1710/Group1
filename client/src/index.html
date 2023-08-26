@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="/Group1/client/dist/output.css"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <title>Document</title>
+</head>
+<body>
+    <!-- header -->
+    <div class="header flex pt-10 pb-4">
+        <!-- logo -->
+        <div class="flex-auto ml-40">
+            <img src="/Group1/Guideline/logo_elca.png" alt="logo">
+        </div>
+
+        <!-- title -->
+        <div class="flex-auto mr-80">
+            <h1 class="font-serif font-bold text-3xl text-gray-400">Project Information Management</h1>
+        </div>
+
+        <!-- language -->
+        <div class="flex-auto">
+            <div class="flex">
+                <a  class="flex-initial text-gray-400"href="">EN</a>
+                <p class="flex-initial text-blue-400">|</p>
+                <a class="flex-initial text-blue-400" href="">FR</a>
+            </div>
+        </div>
+
+        <!-- help -->
+        <div class="flex-auto text-blue-400">
+            <a href="">Help</a>
+        </div>
+
+        <!-- log-out -->
+        <div class="flex-auto text-gray-400">
+            <a href="">Log out</a>
+        </div>
+    </div>
+    <hr>
+
+    <!-- body -->
+
+    <div class="flex">
+        <div class="part1 flex-initial mr-[200px] ml-[180px]">
+            <div>
+                <h1 class="font-bold text-[18px] text-blue-500 mt-6 mb-8">Projects list</h1>
+                <h2 class="font-sans text-[18px] text-[#2F85FA] mb-3">New</h2>
+                <h3 class="font-sans text-[14px] text-[#333333] mb-3">Project</h3>
+                <h3 class="font-sans text-[14px] text-[#666666] mb-3">Customer</h3>
+                <h3 class="font-sans text-[14px] text-[#666666] mb-3">Supplier</h3>
+            </div>
+        </div>
+        <div class="part2 flex-initial">
+            <div class="mb-[38px]">
+                <h1 class="font-bold text-[18px] text-gray-500 mt-6 mb-4">New Project</h1>
+                <hr class="w-[1200px]">
+                <div class="mt-8 grid gap-y-[38px]">
+                    <div class="flex">
+                        <p>Project Number</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-2 mr-[100px]">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                          </svg>
+                          <input class="rounded-lg border-gray-400 w-[250px] h-[30px]" type="text">
+                    </div>
+                    <div class="flex">
+                        <p>Project Name</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-2 mr-[115px]">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                          </svg>
+                          <input class="rounded-lg border-gray-400 w-[600px] h-[30px]" type="text">
+                    </div>
+                    <div class="flex">
+                        <p>Customer</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-2 mr-[142px]">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                          </svg>
+                          <input class="rounded-lg border-gray-400 w-[600px] h-[30px]" type="text">
+                    </div>
+                    <div class="flex">
+                        <p>Group</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-2 mr-[166px]">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                          </svg>
+                        <select class="rounded-lg border-gray-400 w-[250px] h-[30px] placeholder-gray-500 border" placeholder="New" name="" id=""></select>
+                    </div>
+                    <div class="flex">
+                        <p class="mr-[171px]">Member</p>
+                        <input class="rounded-lg border-gray-400 w-[600px] h-[30px]" type="text">
+                    </div>
+                    <div class="flex">
+                        <p>Status</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-2 mr-[169px]">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                          </svg>
+                          <input class="rounded-lg border-gray-400 w-[250px] h-[30px]" type="text">
+                    </div>
+                    <div class="flex">
+                        <p>Start date</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3 ml-2 mr-[143px]">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+                          </svg>
+                        <input class="rounded-lg border-gray-400 w-[250px] h-[30px] mr-[100px]" type="date">  
+
+                        <p>End date</p>
+                        <input class="rounded-lg border-gray-400 w-[250px] h-[30px] mr-[100px] ml-[30px]" type="date">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="flex">
+                <div class="mt-[38px] ml-[500px] mr-[80px]">
+                    <button class="bg-[#B9B9B9] hover:bg-gray-700 text-black font-bold px-[60px] py-[5px] border border-gray-700 rounded">Cancel</button>
+                </div>
+                <div class="mt-[38px]">
+                    <button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[40px] py-[5px] border border-blue-700 rounded">Create Project</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
