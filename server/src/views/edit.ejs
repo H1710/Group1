@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Edit</title>
+</head>
+<body>
+
+  
+  <nav class="navbar">
+    <div class="logo">
+      <a href="#">WED</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/create-user">Create Employeee</a></li>
+    </ul> 
+  </nav>
+   
+  <div class="form">
+     
+    <form action="/update-user" method="post">
+        <fieldset>
+          <legend>Form update a user: </legend>
+          <div class="input-group d-none">
+            <label for="name">ID:</label>
+          <input type="text" id="id" name="id" value="<%= empEdit.id %>"><br><br>
+          </div>
+          <div class="input-group">
+            <label for="name">Name:</label>
+          <input type="text" id="name" name="name" value="<%= empEdit.name %>"><br><br>
+          </div>
+          
+          <div class="input-group">
+            <label for="email">Email:</label>
+          <input type="email" id="email" name="email" value=" <%= empEdit.email%>"><br><br>
+           
+          </div>
+          <div class="input-group"> 
+            <label for="">Salary:</label>
+            <input type="number" id="city" name="salary" value="<%= empEdit.salary  %>" ><br><br>
+          </div>
+          
+          <input type="submit" value="Submit">
+        </fieldset>
+      </form>
+  </div>
+</body>
+</html>
