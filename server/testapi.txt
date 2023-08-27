@@ -1,0 +1,13 @@
+success: {
+    get    http://localhost:3000/api/v1/project/update/1 , render an infor project
+    post  http://localhost:3000/api/v1/project/update , save changed info project
+    get http://localhost:3000/api/v1/project/ , render all infor project
+    post http://localhost:3000/api/v1/project/create , create a new infor project
+    delete http://localhost:3000/api/v1/project/delete , delete a project
+    post http://localhost:3000/api/v1/project/search , search by 1 or more of 4 infor project
+
+}
+
+in progress: {
+
+}

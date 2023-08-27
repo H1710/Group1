@@ -10,7 +10,7 @@ const getAllEmps = async () => {
 const getUserById = async (empId) => {
     let [results, fields] = await connection.query(
         `SELECT * FROM employee where id = ?`, [empId]
-    );
+    ); 
     let user = results && results.length ? results[0]: {};
     return user;
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { getHomePage,
+const { getListProjects,getListProjectsBy,
     postCreateProject, getCreatePage,
     getUpdatePage, postUpdateProject,
     postDeleteProject, getDeletePage} = require('../controllers/projectController')
@@ -9,19 +9,21 @@ const router = express.Router();
 
 
 //router.Method(path, handler)
-router.get('/', getHomePage);
+router.get('/', getListProjects);
 
-router.get('/create', getCreatePage);
+router.post('/search/', getListProjectsBy );
 
-router.post('/create-user',  postCreateProject);
+router.get('/create-page', getCreatePage);
+
+router.post('/create',  postCreateProject);
 
 router.get('/update/:id', getUpdatePage);
 
-router.post('/update-user',  postUpdateProject);
+router.post('/update',  postUpdateProject);
 
-router.post('/delete-user/:id',  getDeletePage);
+// router.get('/delete/:id',  getDeletePage);
 
-router.post('/delete-user',  postDeleteProject);
+router.delete('/delete',  postDeleteProject);
 
 
 
