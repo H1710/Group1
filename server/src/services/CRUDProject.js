@@ -36,15 +36,15 @@ const createProject = async (group_id, project_number, name, customer,
         return results.affectedRows;
     
 }
-const updateProjectById = async (proId,  group_id, project_number, name, customer, 
+const updateProjectById = async (proId,  group_id, name, customer, 
     status, startDate, endDate,version) => {
   
     let [results, fields] = await connection.query(
         `UPDATE project
-         SET   group_id = ?,project_number= ?, name =?,  customer = ? ,
+         SET   group_id = ?, name =?,  customer = ? ,
          status= ?, start_date= ?, end_date= ?, version = ?
         WHERE id =?`,
-        [  group_id, project_number, name, customer, 
+        [  group_id,  name, customer, 
             status, startDate, endDate,version, proId]
 
     );

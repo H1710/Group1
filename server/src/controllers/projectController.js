@@ -13,7 +13,7 @@ const {createProjectEmp} = require('../services/CRUDEmployeeProject');
 
 const {createGroup, getGroupByLeaderId} = require('../services/CRUDGroup');
 
-
+const {isValidProject} = require('../helper/joi_scheme');
 
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
@@ -62,7 +62,23 @@ const postCreateProject = async (req, res) => {
         version,
         members
     } = req.body;
-    
+    const { error, value } = isValidProject.validate({
+        group_id: group_id,
+        members: members,
+        project_number : project_number,
+        name: name,
+        customer: customer,
+        status: status,
+        start_date: startDate,
+        end_date: endDate,
+        version: version,
+    });
+
+    if (error) {
+        return res.status(400).send({
+            message: error.details[0].message
+        });
+    }
     let new_group_id = null;
     let listMembers = [];
     if (group_id === '' && members !== undefined) {
@@ -102,7 +118,8 @@ const postCreateProject = async (req, res) => {
        console.log('successfully created') 
        res.status(200).send({
         err: 0,
-        mes: 'success'
+        mes: 'success',
+        value: value
        })
 }catch (err) {
             internalServerError(res);
@@ -169,7 +186,7 @@ const postUpdateProject = async (req, res) => {
     const {
         proId,
         group_id,
-        project_number,
+       
         name,
         customer,
         status,
@@ -178,7 +195,7 @@ const postUpdateProject = async (req, res) => {
         version
     } = req.body;
      
-    await updateProjectById(proId, group_id, project_number, name, customer, 
+    await updateProjectById(proId, group_id, name, customer, 
         status, startDate, endDate,version)
         .then(rs => {
             console.log(rs);

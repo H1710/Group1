@@ -37,11 +37,21 @@ const deleteUserById = async (empId) => {
         `DELETE FROM employee WHERE id =?`, [empId]
     );
 }
-    
+  
+const listAllVisas = async() =>{
+    const listVisa = [];
+    const listEmps = await getAllEmps();
+    for (const mem of listEmps ){
+        listVisa.push(mem.visa);
+  }
+  return listVisa;
+}
+ 
 module.exports = {
     getAllEmps,
     getUserById, 
     getUserByVisa,
     // updateUserById,
-    deleteUserById
+    deleteUserById,
+    listAllVisas
 }

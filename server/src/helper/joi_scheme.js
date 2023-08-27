@@ -1,29 +1,28 @@
 const Joi = require('joi');
-const {getUserByVisa} = require('../services/CRUDEmployee');
+const {getAllEmps, listAllVisas} = require('../services/CRUDEmployee');
 
 
-const isCreateNewGroup = async(group_id, members) => {
-    let listMembers = [];
-    if (group_id === '' && members !== undefined) {
-        const listVisaMems = members.split(',');
-        // console.log(listVisaMems);
-        
-        await listVisaMems.forEach(async (VisaMem) => {
-            let findEmp =await getUserByVisa(VisaMem.trim());
-            // console.log(findEmp, VisaMem);
-            if ( findEmp === null ) {
-              return  res.status(404).send({
-                            message: `Cannot find Employee with given visa= ${VisaMem} .`  
-                        })
-            }else{
-                listMembers.push(findEmp);
-                // console.log(listMembers, '1')
-            }
-        })
-    }
-    return listMembers;
-}
+ 
 
+const isValidProject = Joi.object({
+    
+    group_id: Joi.number().allow(null, ''),
+    members: Joi.string().when(Joi.ref('group_id'), {
+        is: Joi.exist().not(null, ''),
+        then: Joi.allow(null, ''),
+        otherwise: Joi.required()
+    }),
+    project_number: Joi.number().required(),
+    name: Joi.string().required().max(50),
+    customer: Joi.string().required().max(50),
+    status: Joi.string().valid('NEW','PLA', 'INP', 'FIN').required(),
+    start_date: Joi.date().required(),
+    end_date: Joi.date().allow(null),
+    version: Joi.number().required(),
+     
+})
+
+ 
 module.exports = {
-    isCreateNewGroup,
+    isValidProject,
 }
