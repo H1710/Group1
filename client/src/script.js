@@ -1,22 +1,42 @@
-function submitValue(option){
-    var formElement = document.querySelector('#form-1');
-    if(formElement){
-        formElement.onsubmit = function(e){
-        e.preventDefault();
-        if(typeof option.onSubmit === 'function'){
-            var enableInput = formElement.querySelectorAll('[name]:not([disabled])');
-            var formValue = Array.from(enableInput).reduce(function(values, input){
-                return (values[input.name] = input.value) && values;
-            }, {});
-            option.onSubmit(formValue);
-        }
+function handleCancelButton(formElement) {
+    var cancelButton = formElement.querySelector('button[name="submit"][value="cancel"]');
+    if (cancelButton) {
+        cancelButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log("Cancel button clicked");
+
+            
+            var inputFields = formElement.querySelectorAll('input[name]');
+            inputFields.forEach(function(input) {
+                input.value = ''; 
+            });
+        });
     }
 }
+
+function handleCreateButton(formElement) {
+    var createButton = formElement.querySelector('button[name="submit"][value="create"]');
+    if (createButton) {
+        createButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log("Create Project button clicked");
+
+
+            var inputFields = formElement.querySelectorAll('input[name]');
+            var inputValues = {};
+            inputFields.forEach(function(input) {
+                inputValues[input.name] = input.value;
+            });
+
+            console.log("Input values:", inputValues);
+        });
+    }
 }
 
-submitValue({
-    form: '#form-1',
-    onSubmit: function(data){
-        console.log(data);
+document.addEventListener('DOMContentLoaded', function() {
+    var formElement = document.querySelector('#form-1');
+    if (formElement) {
+        handleCancelButton(formElement);
+        handleCreateButton(formElement);
     }
 });
