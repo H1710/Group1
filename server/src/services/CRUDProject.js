@@ -24,7 +24,18 @@ const getProjectsBy = async (name, status, customer, number) => {
     let projects = results && results.length > 0 ? results: null;
     return projects;
 }
-
+const createProject = async (group_id, project_number, name, customer, 
+    status, startDate, endDate, version) => {
+    let [results, fields] = await connection.query(
+        ` INSERT INTO project (  group_id, project_number, name, customer, 
+            status, start_date, end_date, version) values (?,?,?,?,?,?,?,?)`,
+        [ group_id, project_number, name, customer, 
+            status, startDate, endDate, version]
+        );
+        // let projects = results && results.length > 0 ? results: null;
+        return results.affectedRows;
+    
+}
 const updateProjectById = async (proId,  group_id, project_number, name, customer, 
     status, startDate, endDate,version) => {
   
@@ -51,8 +62,7 @@ module.exports = {
     getAllProjects,
     getProjectById,
     getProjectsBy,
-    // getProjectsByStatus,
-    // getProjectsByCustomer,
+    createProject,
     updateProjectById,
     deleteProjectById
 }
