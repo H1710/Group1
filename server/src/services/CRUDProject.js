@@ -18,12 +18,25 @@ const getProjectById = async (proId) => {
 const getProjectsBy = async (name, status, customer, number) => {
     
     let [results, fields] = await connection.query(
-        `SELECT * FROM project where name like ? and status like ? and customer like ? and project_number like ? `,[`%${name}%`,`%${status}%`, `%${customer}%`, `%${number}%` ]
+        `SELECT * FROM project where name like ? and status like ? and customer like ? and project_number = ? `,[`%${name}%`,`%${status}%`, `%${customer}%`, number ]
     );
-    
+     
     let projects = results && results.length > 0 ? results: null;
     return projects;
 }
+
+const getProjectsByNumber = async ( number) => {
+  
+    let [results, fields] = await connection.query(
+        `SELECT * FROM project where  project_number = ? `,[ number ]
+    );
+     
+    let projects = results && results.length > 0 ? results[0]: null;
+    return projects;
+}
+
+
+
 const createProject = async (group_id, project_number, name, customer, 
     status, startDate, endDate, version) => {
     let [results, fields] = await connection.query(
@@ -64,5 +77,6 @@ module.exports = {
     getProjectsBy,
     createProject,
     updateProjectById,
-    deleteProjectById
+    deleteProjectById,
+    getProjectsByNumber
 }

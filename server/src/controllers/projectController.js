@@ -4,7 +4,7 @@ const {internalServerError, notFound} = require('../middleware/handleErrors');
 
 const {getAllProjects, getProjectById, updateProjectById,
     createProject,
-    deleteProjectById, getProjectsBy, }
+    deleteProjectById, getProjectsBy,getProjectsByNumber }
 = require('../services/CRUDProject');
 
 const {getUserByVisa} = require('../services/CRUDEmployee');
@@ -14,7 +14,9 @@ const {createProjectEmp} = require('../services/CRUDEmployeeProject');
 const {createGroup, getGroupByLeaderId} = require('../services/CRUDGroup');
 
 const {isValidProject} = require('../helper/joi_scheme');
+ 
 
+// const {checkProjectInDb}
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
 //    return res.render('home', {ListProject : list});
@@ -73,12 +75,21 @@ const postCreateProject = async (req, res) => {
         end_date: endDate,
         version: version,
     });
-
+   
     if (error) {
         return res.status(400).send({
-            message: error.details[0].message
+            message: error.details[0].message,
+            'any.required': 'Please enter all the mandatory fields (*)'
         });
     }
+     
+
+    const prj =  await getProjectsByNumber(project_number);
+ 
+    if (prj !== null) {
+        return res.status(404).send({ mes: 'The project number already existed. Please select a different project number'  });
+    }
+  
     let new_group_id = null;
     let listMembers = [];
     if (group_id === '' && members !== undefined) {
@@ -89,13 +100,16 @@ const postCreateProject = async (req, res) => {
             console.log(findEmp)
             if (findEmp === null) {
                 return res.status(404).send({
-                    message: `Cannot find Employee with given visa = ${VisaMem}.`  
+                    message: `Cannot find Employee with given visa = ${VisaMem.trim()}.`  
                 });
             } else {
-                listMembers.push(findEmp);
+                listMembers.push(findEmp.id);
+                console.log(listMembers)
             }
         }
-
+        for (const memberId of listMembers) {
+            await createProjectEmp(projectId,memberId);
+    }
         await createGroup(listMembers[0], version);
 
         new_group_id = await getGroupByLeaderId(listMembers[0])
@@ -151,6 +165,8 @@ const postCreateProject = async (req, res) => {
     
    
 };
+
+ 
 
 const getCreatePage = (req, res) => {
     res.render('create');

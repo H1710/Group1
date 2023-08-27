@@ -1,8 +1,8 @@
 # 
-# get http://localhost:3000/ 
+get http://localhost:3000/1223f 
 
 # list project
-# GET http://localhost:3000/api/v1/project/
+GET http://localhost:3000/api/v1/project/wfwf
 
 # create a new project => post
 POST  http://localhost:3000/api/v1/project/create HTTP/1.1

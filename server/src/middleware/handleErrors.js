@@ -13,7 +13,7 @@ const createError = require('http-errors');
     const error = createError.InternalServerError()
     return res.status(error.status).json({
         err: 1,
-        mes: error.message
+        mes: 'Unexpected error occurred. Please contact your administrator'
     });
 }
 

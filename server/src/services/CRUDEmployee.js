@@ -17,10 +17,10 @@ const getUserById = async (empId) => {
 
 const getUserByVisa = async (visa) => {
     let [results, fields] = await connection.query(
-        `SELECT id FROM employee where visa like ?`, [visa]
+        `SELECT id FROM employee where visa like ?`, visa
     ); 
     let empId = results && results.length ? results[0]: null;
-    return empId.id;
+    return empId;
 }
 
 // const updateUserById = async (empId, name, email, salary) => {
@@ -46,7 +46,6 @@ const listAllVisas = async() =>{
   }
   return listVisa;
 }
- 
 module.exports = {
     getAllEmps,
     getUserById, 

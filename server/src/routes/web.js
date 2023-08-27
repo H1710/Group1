@@ -1,32 +1,32 @@
-const express = require('express');
+// const express = require('express');
 
-const {getHomePage, getAbc, getHoiDanIt,
-    postCreateUser, getCreatePage,
-    getUpdatePage, postUpdateUser,
-    postDeleteUser, getDeletePage} = require('../controllers/homeController')
+// const {getHomePage, getAbc, getHoiDanIt,
+//     postCreateUser, getCreatePage,
+//     getUpdatePage, postUpdateUser,
+//     postDeleteUser, getDeletePage} = require('../controllers/homeController')
 
-const router = express.Router();
-
-
-//router.Method(path, handler)
-router.get('/', getHomePage);
-
-router.get('/abc', getAbc);
-
-router.get('/hoidanit', getHoiDanIt);
-
-router.get('/create', getCreatePage);
-
-router.post('/create-user',  postCreateUser);
-
-router.get('/update/:id', getUpdatePage);
-
-router.post('/update-user',  postUpdateUser);
-
-router.post('/delete-user/:id',  getDeletePage);
-
-router.post('/delete-user',  postDeleteUser);
+// const router = express.Router();
 
 
+// //router.Method(path, handler)
+// router.get('/', getHomePage);
 
-module.exports = router;
+// router.get('/abc', getAbc);
+
+// router.get('/hoidanit', getHoiDanIt);
+
+// router.get('/create', getCreatePage);
+
+// router.post('/create-user',  postCreateUser);
+
+// router.get('/update/:id', getUpdatePage);
+
+// router.post('/update-user',  postUpdateUser);
+
+// router.post('/delete-user/:id',  getDeletePage);
+
+// router.post('/delete-user',  postDeleteUser);
+
+
+
+// module.exports = router;

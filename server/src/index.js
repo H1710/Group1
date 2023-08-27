@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 // const cors = require('cors');
 const configViewEngine = require('./config/viewEngine');
-const webRoutes = require('./routes/web');
+// const webRoutes = require('./routes/web');
 const projectRoutes = require('./routes/project');
 const bodyParser = require('body-parser');
 const { notFound } = require('./middleware/handleErrors');
