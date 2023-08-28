@@ -7,11 +7,11 @@ const {getAllProjects, getProjectById, updateProjectById,
     deleteProjectById, getProjectsBy,getProjectsByNumber }
 = require('../services/CRUDProject');
 
-const {getUserByVisa} = require('../services/CRUDEmployee');
+const {getUserByVisa, listStatusProjectOfLeader} = require('../services/CRUDEmployee');
 
 const {createProjectEmp} = require('../services/CRUDEmployeeProject');
 
-const {createGroup, getGroupByLeaderId} = require('../services/CRUDGroup');
+const {createGroup, getGroupByLeaderId, getAllGroup, } = require('../services/CRUDGroup');
 
 const {isValidProject} = require('../helper/joi_scheme');
  
@@ -50,8 +50,22 @@ const getListProjectsBy= async (req, res) => {
     });
 
 }
+function formatDateToYYYYMMDD(inputDate) {
+    const parts = inputDate.split('/');
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+    
+    return `${year}-${month}-${day}`;
+  }
 const postCreateProject = async (req, res) => {
    try {
+    const formData = req.body;
+     
+     
+    // if (submittedData.has(JSON.stringify(formData))) {
+    //     return res.status(400).json({ error: 'Duplicate submission' });
+    //   }
     
     const {
         group_id,
@@ -71,11 +85,11 @@ const postCreateProject = async (req, res) => {
         name: name,
         customer: customer,
         status: status,
-        start_date: startDate,
-        end_date: endDate,
+        start_date: formatDateToYYYYMMDD(startDate),
+        end_date: formatDateToYYYYMMDD(endDate),
         version: version,
     });
-   
+   //check required fields
     if (error) {
         return res.status(400).send({
             message: error.details[0].message,
@@ -83,19 +97,30 @@ const postCreateProject = async (req, res) => {
         });
     }
      
-
+    //check prj number
     const prj =  await getProjectsByNumber(project_number);
  
     if (prj !== null) {
         return res.status(404).send({ mes: 'The project number already existed. Please select a different project number'  });
     }
-  
+     
+    //check start_date
+   
+    //check end_date > start_date
+    if ( endDate !== '' || endDate !==null ) {
+        if (endDate < startDate){
+        return res.status(404).send({ mes: 'The end date must be more than start date'  });
+
+        }
+    }
+    
+    
     let new_group_id = null;
     let listMembers = [];
     if (group_id === '' && members !== undefined) {
         const listVisaMems = members.split(',');
-        
         for (const VisaMem of listVisaMems) {
+            //check visa
             let findEmp = await getUserByVisa(VisaMem.trim());
             console.log(findEmp)
             if (findEmp === null) {
@@ -107,28 +132,49 @@ const postCreateProject = async (req, res) => {
                 console.log(listMembers)
             }
         }
-        for (const memberId of listMembers) {
-            await createProjectEmp(projectId,memberId);
-    }
+         //check employee is leader of other  grp
+         new_group_id = await getGroupByLeaderId(listMembers[0]);
+         if (new_group_id) {
+            return res.status(404).send({
+                message: `This employee has a leader of other group.`  
+            });
+         }
         await createGroup(listMembers[0], version);
 
         new_group_id = await getGroupByLeaderId(listMembers[0])
      
+    } else{
+        //check this group has other prj not complete
+     const listStatusProjectOfGroup = await listStatusProjectOfLeader(group_id);
+    
+     for (const otherProject of listStatusProjectOfGroup){
+        if (otherProject.status !== 'FIN'){
+            return res.status(404).send({
+                message: `This group has other project not complete.`  
+            });
+        }
+     }
     }
+
     if (new_group_id == null) {
          new_group_id = group_id;
      }
-     console.log('group id',new_group_id);
+    
+     
+      
 
     const rs= await createProject(new_group_id, project_number, name, customer, 
-        status, startDate, endDate, version)
-        console.log(rs);
-
+        status, formatDateToYYYYMMDD(startDate), formatDateToYYYYMMDD(endDate), version)
+         
+        
+        
      const  project = await getProjectsBy( name,status ,customer, project_number)
       const projectId = project[0].id;
     for (const memberId of listMembers) {
             await createProjectEmp(projectId,memberId);
     }
+
+    // submittedData.add(JSON.stringify(formData));
        console.log('successfully created') 
        res.status(200).send({
         err: 0,
@@ -138,38 +184,19 @@ const postCreateProject = async (req, res) => {
 }catch (err) {
             internalServerError(res);
         }
-        // 
-        // .then(async(data) => {
-            
-        // })
-        // .then(data => {
-        //     //     // if (data && data.length > 0){
-        //     //         // res.render('home', {Projects: data});
-        //             res.status(200).json(data);
-        
-        //     //     // }
-        //     //     //     res.status(404).send({
-        //     //     //         message: `Cannot find Project with given name= ${namep} and status= ${statusp} and customer= ${customerp} and number = ${number}.`  
-        //     //     //     })
-        //     //     //     // notFound(req, res);
-        //     //     // }
-        //     })
-        // .catch (err => {
-        //     internalServerError(res);
-        // //     // res.status(500).send({
-        // //     //     message: `Error retrieving Project with given name= ${namep} and status= ${statusp} and cutomer= ${customerp} and number = ${number}.`  
-        // //     // });
-        // });
-         
-     
-    
-   
+       
 };
 
  
 
-const getCreatePage = (req, res) => {
-    res.render('create');
+const getCreatePage =async (req, res) => {
+   try{ 
+    const listGroupsId = await getAllGroup();
+    return res.status(200).json(listGroupsId);
+}catch(e){
+    internalServerError(res);
+}
+
     // res.send(req.body);
     // console.log(req.body);
 }

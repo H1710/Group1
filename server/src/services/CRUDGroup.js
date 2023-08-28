@@ -22,8 +22,11 @@ const getGroupByLeaderId = async (leader_id) => {
     let group = results && results.length ? results[0]: null;
     return group.id;
 } 
+
+ 
 module.exports = {
     getAllGroup,
     createGroup,
-    getGroupByLeaderId
+    getGroupByLeaderId,
+
 }

@@ -13,8 +13,9 @@ router.get('/', getListProjects);
 
 router.post('/search/', getListProjectsBy );
 
-router.get('/create-page', getCreatePage);
 
+router.get('/create', getCreatePage);
+ 
 router.post('/create',  postCreateProject);
 
 router.get('/update/:id', getUpdatePage);

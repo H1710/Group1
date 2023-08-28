@@ -16,6 +16,7 @@ const getUserById = async (empId) => {
 }
 
 const getUserByVisa = async (visa) => {
+    console.log(`Getting user`)
     let [results, fields] = await connection.query(
         `SELECT id FROM employee where visa like ?`, visa
     ); 
@@ -46,10 +47,20 @@ const listAllVisas = async() =>{
   }
   return listVisa;
 }
+const listStatusProjectOfLeader = async (group_id) =>{
+    let [results, fields] = await connection.query(
+        `SELECT status
+        FROM employee_group eg
+        JOIN project p ON eg.id = p.group_id and eg.id = ?`, [group_id]
+    );
+    let rs = results && results.length ? results: null;
+    return rs;
+}
 module.exports = {
     getAllEmps,
     getUserById, 
     getUserByVisa,
+    listStatusProjectOfLeader,
     // updateUserById,
     deleteUserById,
     listAllVisas

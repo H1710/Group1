@@ -16,8 +16,8 @@ const isValidProject = Joi.object({
     name: Joi.string().required().max(50),
     customer: Joi.string().required().max(50),
     status: Joi.string().valid('NEW','PLA', 'INP', 'FIN').required(),
-    start_date: Joi.date().required(),
-    end_date: Joi.date().allow(null),
+    start_date: Joi.date().required().max(new Date()),
+    end_date: Joi.date().allow(null, ''),
     version: Joi.number().required(),
      
 })
