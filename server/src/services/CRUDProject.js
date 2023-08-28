@@ -39,7 +39,7 @@ const getProjectsByNumber = async ( number) => {
 
 const createProject = async (group_id, project_number, name, customer, 
     status, startDate, endDate, version) => {
-     if (endDate === '')   {
+     if (endDate === '' && endDate==null)   {
         let [results, fields] = await connection.query(
             ` INSERT INTO project (  group_id, project_number, name, customer, 
                 status, start_date, end_date, version) values (?,?,?,?,?,?,null,?)`,
@@ -61,7 +61,7 @@ const createProject = async (group_id, project_number, name, customer,
 }
 const updateProjectById = async (proId,  group_id, name, customer, 
     status, startDate, endDate,version) => {
-  
+        console("2");
     let [results, fields] = await connection.query(
         `UPDATE project
          SET   group_id = ?, name =?,  customer = ? ,

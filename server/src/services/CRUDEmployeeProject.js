@@ -14,7 +14,16 @@ const createProjectEmp = async (project_id, employee_id) => {
     );
     return results.affectedRows;
 }
+const deleteEmployeesOfProject = async (id) =>{
+    let [results, fields] = await connection.query(
+        `delete project_employee 
+        where id = ? `, [id]
+    );
+    return results.affectedRows;
+}
+
 module.exports = {
     getAllProjectEmp,
-    createProjectEmp
+    createProjectEmp,
+    deleteEmployeesOfProject
 }

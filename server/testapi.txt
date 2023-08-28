@@ -3,11 +3,26 @@ success: {
     post  http://localhost:3000/api/v1/project/update , save changed info project
     get http://localhost:3000/api/v1/project/ , render all infor project
     post http://localhost:3000/api/v1/project/create , create a new infor project
-    delete http://localhost:3000/api/v1/project/delete , delete a project
+     
     post http://localhost:3000/api/v1/project/search , search by 1 or more of 4 infor project
 
+   
 }
 
 in progress: {
+update: {
+    CÁC TH:
+    1. update group_id 
+        + New group: làm như insert + delete infor old group_project?
+        + new Group has exist: 
+            . Group has all prj FIN: làm như insert + delete infor old group in project_employee
+            . Group has a project != FIN: not update and return mes to choose other Group
+        + old group : update a status
+    2. update other : validte như insert
 
 }
+2 .delete http://localhost:3000/api/v1/project/delete , delete a project
+}
+
+htpp://localhost:port/
+
