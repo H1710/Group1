@@ -9,9 +9,9 @@ const {getAllProjects, getProjectById, updateProjectById,
 
 const {getUserByVisa } = require('../services/CRUDEmployee');
 
-const {createProjectEmp, deleteEmployeesOfProject} = require('../services/CRUDEmployeeProject');
+const {createProjectEmp, deleteEmployeesOfProject, getAllMemofGroup, createGroupMember} = require('../services/CRUDEmployeeGroup');
 
-const {createGroup, getGroupByLeaderId, getAllGroup,getAllMemofGroup, deleteGroup } = require('../services/CRUDGroup');
+const {createGroup, getGroupByLeaderId, getAllGroup,getLeaderofGroup, deleteGroup } = require('../services/CRUDGroup');
 
 const {isValidProject} = require('../helper/joi_scheme');
  
@@ -19,8 +19,7 @@ const {isValidProject} = require('../helper/joi_scheme');
 // const {checkProjectInDb}
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
-//    return res.render('home', {ListProject : list});
-    //  res.send({list});
+//    
     res.status(200).json(list);
 }
 
@@ -101,7 +100,7 @@ const postCreateProject = async (req, res) => {
 
         }
     }
-    
+    console.log('1111')
     
     let new_group_id = null;
     let listMembers = [];
@@ -109,6 +108,7 @@ const postCreateProject = async (req, res) => {
         const listVisaMems = members.split(',');
         for (const VisaMem of listVisaMems) {
             //check visa
+            if (VisaMem.trim() == '') continue;
             let findEmp = await getUserByVisa(VisaMem.trim());
             // console.log(findEmp)
             if (findEmp === null) {
@@ -121,6 +121,7 @@ const postCreateProject = async (req, res) => {
             }
         }
         console.log(listMembers)
+        console.log(listMembers[0])
          //check employee is leader of other  grp
          const isLeader = await getGroupByLeaderId(listMembers[0]);
          if (isLeader) {
@@ -128,32 +129,33 @@ const postCreateProject = async (req, res) => {
                 message: `This employee has a leader of other group.`  
             });
          }
+         console.log(isLeader);
+         //tao grp moi 
+         //tao mqh n-n grp voi employee
         const rss =await createGroup(listMembers[0], version);
-        // console.log(rss)
+         console.log(rss);
         new_group_id = await getGroupByLeaderId(listMembers[0]);
+        console.log(new_group_id);
+        const listMemNoLeader = listMembers.splice(1);
+        console.log(listMemNoLeader);
+        for (const memberId of listMemNoLeader){
+            await createGroupMember(new_group_id, memberId)
+        }
     }  
     // let empListId = [];
     if (new_group_id == null){
           new_group_id = group_id;
-         const  groupExisted = await getAllMemofGroup(new_group_id);
-         for(const mem of groupExisted){
-            listMembers.push(mem.employee_id);
-         }
-        console.log(listMembers)
     } 
   
-
+console.log('22222')
+console.log(new_group_id, project_number, name, customer.trim(), 
+status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
     const rs= await createProject(new_group_id, project_number, name, customer.trim(), 
         status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
       ///chua insert thanh vien cuar grp cos san vafo prj)emps  
-    //   console.log("================================")
-    const  project = await getProjectsByNumber(project_number)
-    const projectId = project.id;
-    for (const memberId of listMembers) { 
-            await createProjectEmp(projectId,memberId);
-            console.log(memberId, projectId);
-    }
-
+      console.log("================================")
+      console.log(rs)
+ 
    
        console.log('successfully created') 
        res.status(200).send({
@@ -234,8 +236,6 @@ const postUpdateProject = async (req, res) => {
                 'any.required': 'Please enter all the mandatory fields (*)'
             });
         }
-         
-        
        
         //check end_date > start_date
         if ( endDateValid !== '' || endDateValid !==null ) {
@@ -254,18 +254,18 @@ const postUpdateProject = async (req, res) => {
         const listVisaMems = members.split(',');
         for (const VisaMem of listVisaMems) {
             //check visa
+            if (VisaMem.trim() == '' ) continue;
             let findEmp = await getUserByVisa(VisaMem.trim());
-            console.log(findEmp)
+            // console.log(findEmp)
             if (findEmp === null) {
                 return res.status(404).send({
                     message: `Cannot find Employee with given visa = ${VisaMem.trim()}.`  
                 });
             } else {
                 listMembers.push(findEmp.id);
-                console.log(listMembers)
             }
         }
-         
+
          
         const isLeader = await getGroupByLeaderId(listMembers[0]);
         
@@ -274,26 +274,18 @@ const postUpdateProject = async (req, res) => {
                 message: `This employee is a leader of other group.`  
             });
          }
-         console.log('here')
-          
      
         const rss =await createGroup(listMembers[0], version);
-        console.log(rss)
         new_group_id = await getGroupByLeaderId(listMembers[0]);
-        console.log(new_group_id)
-        //  xoa du lieu o pro_emp and update in prj
-        // add du lieu cua grp moi vao pro_emp
-        console.log(proId,new_group_id, name, customer, 
-            status, formatDateToYYYYMMDD(startDate), endDateValid, version);
+        const listMemNoLeader = listMembers.splice(1);
+        for (const memberId of listMemNoLeader){
+            await createGroupMember(new_group_id, memberId)
+        }
+       
 
         await updateProjectById(proId,new_group_id, name, customer, 
             status, formatDateToYYYYMMDD(startDate), endDateValid, version);
-            
-        
-        console.log('here');
-        console.log(proId);
-         await deleteEmployeesOfProject(proId);
- 
+          
             for (const memberId of listMembers) {
                 await createProjectEmp(proId,memberId);
                 console.log('here');
@@ -305,56 +297,24 @@ const postUpdateProject = async (req, res) => {
         }
         
     } else{
-         
-        console.log('1');
-        const  projectOld = await getProjectById(proId) ;
-        const OldGroupId = projectOld.group_id.toString() ;
-        const newGroupId =  (group_id).trim();
         
-            
+            console.log(proId,group_id, name, customer, 
+                status, formatDateToYYYYMMDD(startDate), endDateValid, version)
             await updateProjectById(proId,group_id, name, customer, 
                 status, formatDateToYYYYMMDD(startDate), endDateValid, version);
                 
         
-        if (OldGroupId != newGroupId) {
-            console.log(OldGroupId, newGroupId)
-            await deleteEmployeesOfProject(proId);
-                //
-            //  const oldGroup =   await getAllMemofGroup(OldGroupId);
-             const newGroup = await getAllMemofGroup(newGroupId);
-             console.log(newGroup)
-            let listIdMem = [];
-            for (const mem of newGroup){
-                listIdMem.push(mem.employee_id);
-            }
-              
-
-             for (const id of listIdMem){
-                await createProjectEmp(proId,id);
-                console.log(id);
-             }
-              
-        }
-         
-        // setTimeout(() =>{
-            console.log("11")
             return res.status(200).send({
                 err: 0,
                 message: "Project was updated successfully.",
                 value:  value
             })
-        //  }, 1000);
-
      
     }
-
-    //  
             }
         catch(err){
              internalServerError(res);
         };
-     
-    // res.send( 'Updated project successfully');
 }
 
 const getDeletePage = async (req, res) => {
@@ -367,10 +327,15 @@ const getDeletePage = async (req, res) => {
 const postDeleteProject = async (req, res) => {
     try {
         const proId = req.params.id;
-        console.log(proId);
-        const pro = await getProjectById(proId);
-        await deleteProjectById(proId);
-        await deleteGroup(pro.group_id);
+        
+       const rs =  await deleteProjectById(proId);
+         
+        if (rs.affectedRows == 0){
+            return res.status(200).json({
+                err: 0,
+                mes: `No rows affected`,
+            });
+        }
         return res.status(200).json({
             err: 0,
             mes: `Delete project successfully`,

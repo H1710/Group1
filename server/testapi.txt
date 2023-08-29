@@ -26,3 +26,8 @@ update: {
 
 htpp://localhost:port/
 
+khi xóa 1 project => bị ràng buộc với employee_project => kh xóa đc
+nếu xóa 1 project, set up ràng buộc cascade => khi xóa 1 project => dữ liệu liên quan dc xóa trong employee_project khi đó, các member sẽ bị xóa hết 
+chỉ còn lại bảng employee_group với 1 thành viên là leader => team còn 1ng
+=> nếu xóa team đó thì project khác mà team đó đang làm sẽ lỗi ràng buộc ở project 
+
