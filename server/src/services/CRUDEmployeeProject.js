@@ -16,9 +16,9 @@ const createProjectEmp = async (project_id, employee_id) => {
 }
 const deleteEmployeesOfProject = async (id) =>{
     let [results, fields] = await connection.query(
-        `delete project_employee 
-        where id = ? `, [id]
+        `DELETE from project_employee where project_id  = ? `, id
     );
+    console.log(results)
     return results.affectedRows;
 }
 

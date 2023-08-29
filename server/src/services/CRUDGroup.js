@@ -31,16 +31,25 @@ const getGroupByLeaderId = async (leader_id) => {
 } 
 const getAllMemofGroup = async (group_id) =>{
     let [results, fields] = await connection.query(
-        `SELECT pe.employee_id FROM project p
-        join project_employee pe on pe.project_id = p.id and p.group_id = ?`,group_id
+        `SELECT DISTINCT pe.employee_id, e.last_name, e.first_name FROM project p
+        join project_employee pe on pe.project_id = p.id
+        join employee  e on e.id = pe.employee_id 
+        where p.group_id = ?`,group_id
     );
     return results;
 }
  
+const deleteGroup = async (id) =>{
+    let [results, fields] = await connection.query(
+        `delete from employee_group where id = ?`, id
+    );
+    return results;
+}
 module.exports = {
     getAllGroup,
     createGroup,
     getGroupByLeaderId,
-    getAllMemofGroup
+    getAllMemofGroup,
+    deleteGroup
     
 }

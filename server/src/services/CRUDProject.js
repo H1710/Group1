@@ -18,7 +18,7 @@ const getProjectById = async (proId) => {
 const getProjectsBy = async (name, status, customer, number) => {
     
     let [results, fields] = await connection.query(
-        `SELECT * FROM project where name like ? and status like ? and customer like ? and project_number = ? `,[`%${name}%`,`%${status}%`, `%${customer}%`, number ]
+        `SELECT * FROM project where name like ? and status like ? and customer like ? and project_number like ? `,[`%${name}%`,`%${status}%`, `%${customer}%`,  `%${number}%` ]
     );
      
     let projects = results && results.length > 0 ? results: null;
@@ -61,17 +61,33 @@ const createProject = async (group_id, project_number, name, customer,
 }
 const updateProjectById = async (proId,  group_id, name, customer, 
     status, startDate, endDate,version) => {
-        console("2");
-    let [results, fields] = await connection.query(
-        `UPDATE project
-         SET   group_id = ?, name =?,  customer = ? ,
-         status= ?, start_date= ?, end_date= ?, version = ?
-        WHERE id =?`,
-        [  group_id,  name, customer, 
-            status, startDate, endDate,version, proId]
+       
+    if (endDate == null || endDate == ''){
+        let [results, fields] = await connection.query(
+            `UPDATE project
+             SET   group_id = ?, name =?,  customer = ? ,
+             status= ?, start_date= ?, end_date= ?,version = ?
+            WHERE id =?`,
+            [  group_id,  name, customer, 
+                status, startDate,null,version, proId]
+    
+        );
+        return results;
+    }else {
+    //     console.log("2");
+        let  [results, fields] = await connection.query(
+            `UPDATE project
+             SET   group_id = ?, name =?,  customer = ? ,
+             status= ?, start_date= ?, end_date= ?, version = ?
+            WHERE id =?`,
+            [  group_id,  name, customer, 
+                status, startDate, endDate,version, proId]);
+                // console.log('here', results);
 
-    );
-    return results;
+                return results;
+    }
+     
+    
     } 
 
 const deleteProjectById = async (proId) => {

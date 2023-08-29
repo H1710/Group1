@@ -24,15 +24,7 @@ const getUserByVisa = async (visa) => {
     return empId;
 }
 
-// const updateUserById = async (empId, name, email, salary) => {
-  
-//     let [results, fields] = await connection.query(
-//         `UPDATE employee
-//          SET name =?, email =?, salary =?
-//         WHERE id =?`,
-//         [name, email, salary, empId]
-//     );
-//     } 
+ 
 const deleteUserById = async (empId) => {
     let [results, fields] = await connection.query(
         `DELETE FROM employee WHERE id =?`, [empId]
