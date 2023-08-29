@@ -30,7 +30,7 @@ const getListProjectsBy= async (req, res) => {
          const statusp= req.body['status'];
          const customerp = req.body['customer'];
          const number = req.body['project_number'];
-         console.log(namep, customerp,statusp,number);
+        //  console.log(namep, customerp,statusp,number);
          const pro = await getProjectsBy(namep, statusp, customerp, number);
          return res.status(200).json({
             ListProjects: pro,
@@ -343,7 +343,7 @@ const postDeleteProject = async (req, res) => {
     } catch (err) {
         internalServerError(res);
     }
-    const proId = req.body.proId;
+ 
 }
 module.exports = {
     getListProjects,

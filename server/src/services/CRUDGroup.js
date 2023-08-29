@@ -2,7 +2,7 @@ const connection = require('../config/db');
 
 const getAllGroup = async () => {
     let [results, fields] = await connection.query(
-        `SELECT * FROM groups`
+        `SELECT * FROM group_leader`
     );
     return results;
 }
