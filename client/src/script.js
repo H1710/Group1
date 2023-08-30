@@ -67,10 +67,10 @@ fetch('http://localhost:3000/api/v1/project/')
             <td class="border-l border-b w-[350px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.customer}</td>
             <td class="border-l border-b w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.start_date}</td>
             <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">
-                <button class="delete-button" style="display: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                    </svg>
-                </button>
+            <button class="delete-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            </svg>
+            </button>
             </td>
         `;
             dataContainer.appendChild(exportdata);
@@ -109,12 +109,17 @@ fetch('http://localhost:3000/api/v1/project/')
     //icon delete
     function toggleDeleteIcon(checkboxId) {
         const checkbox = document.getElementById(checkboxId);
-        const deleteButton = checkbox.closest('td').querySelector('.delete-button');
-    
+        const deleteButton = document.querySelector('.delete-button');
+
+        console.log(checkbox)
+        console.log(deleteButton)
+        
         if (checkbox.checked) {
-            deleteButton.style.display = 'block';
+            deleteButton.classList.remove('none');
+            deleteButton.classList.add('block');
         } else {
-            deleteButton.style.display = 'none';
+            deleteButton.classList.add('none');
+            deleteButton.classList.remove('block');
         }
     }
     
