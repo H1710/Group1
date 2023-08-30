@@ -192,7 +192,7 @@ const postCreateProject = async (req, res) => {
 const getCreatePage =async (req, res) => {
    try{ 
     const listGroupsId = await getAllGroup();
-    return res.status(200).json(listGroupsId);
+    return res.status(200).json({list: listGroupsId});
 }catch(e){
     internalServerError(res);
 }
