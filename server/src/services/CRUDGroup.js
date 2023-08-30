@@ -2,14 +2,21 @@ const connection = require('../config/db');
 
 const getAllGroup = async () => {
     let [results, fields] = await connection.query(
-        `SELECT * FROM employee_group`
+        `SELECT * FROM group_leader`
     );
     return results;
+}
+const getGroupById = async (id) => {
+    let [results, fields] = await connection.query(
+        `SELECT * FROM  group_leader where id = ? `, id
+    );
+    let rs= results && results.length ? results[0]: null;
+    return rs;
 }
 
 const createGroup = async (group_leader_id, version) => {
     let [results, fields] = await connection.query(
-        `Insert into employee_group (group_leader_id, version)
+        `Insert into group_leader (group_leader_id, version)
         values (?,?)`, [group_leader_id, version]
     );
     return results.affectedRows;
@@ -17,16 +24,29 @@ const createGroup = async (group_leader_id, version) => {
 
 const getGroupByLeaderId = async (leader_id) => {
     let [results, fields] = await connection.query(
-        `SELECT id FROM employee_group where group_leader_id = ?`, leader_id
+        `SELECT * FROM group_leader WHERE group_leader_id = ?`, leader_id
     );
-    let group = results && results.length ? results[0]: null;
-    return group.id;
+    let group = results && results.length ? results[0].id: null;
+    return group ;
 } 
-
+const getLeaderofGroup = async (group_id) =>{
+    let [results, fields] = await connection.query(
+        `SELECT DISTINCT * from group_leader where id = ?`,group_id
+    );
+    return results;
+}
  
+const deleteGroup = async (id) =>{
+    let [results, fields] = await connection.query(
+        `delete from group_leader where id = ?`, id
+    );
+    return results;
+}
 module.exports = {
     getAllGroup,
     createGroup,
     getGroupByLeaderId,
-
+    getLeaderofGroup,
+    deleteGroup
+    
 }

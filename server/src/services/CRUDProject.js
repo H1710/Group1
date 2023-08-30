@@ -18,7 +18,7 @@ const getProjectById = async (proId) => {
 const getProjectsBy = async (name, status, customer, number) => {
     
     let [results, fields] = await connection.query(
-        `SELECT * FROM project where name like ? and status like ? and customer like ? and project_number = ? `,[`%${name}%`,`%${status}%`, `%${customer}%`, number ]
+        `SELECT * FROM project where name like ? and status like ? and customer like ? and project_number like ? `,[`%${name}%`,`%${status}%`, `%${customer}%`,  `%${number}%` ]
     );
      
     let projects = results && results.length > 0 ? results: null;
@@ -39,7 +39,8 @@ const getProjectsByNumber = async ( number) => {
 
 const createProject = async (group_id, project_number, name, customer, 
     status, startDate, endDate, version) => {
-     if (endDate === '')   {
+     if (endDate === '' || endDate==null)   {
+        console.log('333333333')
         let [results, fields] = await connection.query(
             ` INSERT INTO project (  group_id, project_number, name, customer, 
                 status, start_date, end_date, version) values (?,?,?,?,?,?,null,?)`,
@@ -49,7 +50,9 @@ const createProject = async (group_id, project_number, name, customer,
              
             return results.affectedRows;
      }else
-        { let [results, fields] = await connection.query(
+        { 
+            console.log('44444')
+            let [results, fields] = await connection.query(
         ` INSERT INTO project (  group_id, project_number, name, customer, 
             status, start_date, end_date, version) values (?,?,?,?,?,?,?,?)`,
         [ group_id, project_number, name, customer, 
@@ -61,17 +64,34 @@ const createProject = async (group_id, project_number, name, customer,
 }
 const updateProjectById = async (proId,  group_id, name, customer, 
     status, startDate, endDate,version) => {
-  
-    let [results, fields] = await connection.query(
-        `UPDATE project
-         SET   group_id = ?, name =?,  customer = ? ,
-         status= ?, start_date= ?, end_date= ?, version = ?
-        WHERE id =?`,
-        [  group_id,  name, customer, 
-            status, startDate, endDate,version, proId]
+       
+    if (endDate == null || endDate == ''){
+        console.log('No end date')
+        let [results, fields] = await connection.query(
+            `UPDATE project
+             SET   group_id = ?, name =?,  customer = ? ,
+             status= ?, start_date= ?,version = ?
+            WHERE id =?`,
+            [  group_id,  name, customer, 
+                status, startDate,endDate,version, proId]
+    
+        );
+        return results;
+    }else {
+    //     console.log("2");
+        let  [results, fields] = await connection.query(
+            `UPDATE project
+             SET   group_id = ?, name =?,  customer = ? ,
+             status= ?, start_date= ?, end_date= ?, version = ?
+            WHERE id =?`,
+            [  group_id,  name, customer, 
+                status, startDate, endDate,version, proId]);
+                // console.log('here', results);
 
-    );
-    return results;
+                return results;
+    }
+     
+    
     } 
 
 const deleteProjectById = async (proId) => {

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { getListProjects,getListProjectsBy,
-    postCreateProject, getCreatePage,
+    postCreateProject, getListGroups,
     getUpdatePage, postUpdateProject,
     postDeleteProject, getDeletePage} = require('../controllers/projectController')
 
@@ -11,10 +11,10 @@ const router = express.Router();
 //router.Method(path, handler)
 router.get('/', getListProjects);
 
-router.post('/search/', getListProjectsBy );
+router.post('/search', getListProjectsBy );
 
 
-router.get('/create', getCreatePage);
+router.get('/create', getListGroups);
  
 router.post('/create',  postCreateProject);
 
@@ -24,7 +24,7 @@ router.post('/update',  postUpdateProject);
 
 // router.get('/delete/:id',  getDeletePage);
 
-router.delete('/delete',  postDeleteProject);
+router.delete('/delete/:id',  postDeleteProject);
 
 
 
