@@ -5,6 +5,7 @@ const projectRoutes = require('./routes/project');
 const bodyParser = require('body-parser');
 const { notFound } = require('./middleware/handleErrors');
 const app = express();
+const cors = require('cors');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -12,7 +13,7 @@ app.use(bodyParser.urlencoded({
   }));
 configViewEngine(app);
 
-app.use('/api/v1/project/', projectRoutes);
+app.use('/api/v1/project/', cors(),projectRoutes);
 
 app.use('/',notFound);
 const port = 3000;

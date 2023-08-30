@@ -3,7 +3,7 @@ const express = require('express');
 const { getListProjects,getListProjectsBy,
     postCreateProject, getListGroups,
     getUpdatePage, postUpdateProject,
-    postDeleteProject, getDeletePage} = require('../controllers/projectController')
+    postDeleteProject, getDeletePage, deleteManyProjects} = require('../controllers/projectController')
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ router.get('/update/:id', getUpdatePage);
 
 router.post('/update',  postUpdateProject);
 
-// router.get('/delete/:id',  getDeletePage);
+router.post('/delete/',  deleteManyProjects);
 
 router.delete('/delete/:id',  postDeleteProject);
 
