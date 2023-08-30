@@ -30,9 +30,7 @@ function formatDateToDDMMYYYY(isoDateString) {
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
 //    
-    res.status(200).json({
-       ListProjects: list
-    });
+    res.status(200).json(list);
 }
 
 const getListProjectsBy= async (req, res) => {
@@ -44,9 +42,7 @@ const getListProjectsBy= async (req, res) => {
          const number = req.body['project_number'];
         //  console.log(namep, customerp,statusp,number);
          const pro = await getProjectsBy(namep, statusp, customerp, number);
-         return res.status(200).json({
-            ListProjects: pro,
-         })
+         return res.status(200).json(pro)
     }catch (err) {
         internalServerError(res);
              
@@ -186,7 +182,7 @@ status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
 const getListGroups =async (req, res) => {
    try{ 
     const listGroupsId = await getAllGroup();
-    return res.status(200).json({list: listGroupsId});
+    return res.status(200).json(listGroupsId);
 }catch(e){
     internalServerError(res);
 }
@@ -226,8 +222,10 @@ const postUpdateProject = async (req, res) => {
             version,
             members
         } = req.body;
-        const endDateValid = endDate ? formatDateToYYYYMMDD(endDate): null;
-
+        const endDateValid = endDate.trim() != '' ? formatDateToYYYYMMDD(endDate.trim()): null;
+        if (proId === undefined) {
+           internalServerError(res);
+        }
         const { error, value } = isValidProject.validate({
             // proId: proId,
             group_id: group_id,
@@ -237,7 +235,7 @@ const postUpdateProject = async (req, res) => {
             customer: customer.trim(),
             status: status,
             start_date: formatDateToYYYYMMDD(startDate),
-            end_date: endDateValid,
+            end_date: endDateValid.trim(),
             version: version,
         });
 
