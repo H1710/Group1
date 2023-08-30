@@ -16,11 +16,23 @@ const {createGroup, getGroupByLeaderId, getAllGroup,getLeaderofGroup, deleteGrou
 const {isValidProject} = require('../helper/joi_scheme');
  
 
+function formatDateToDDMMYYYY(isoDateString) {
+    var dateObject = new Date(isoDateString);
+    var day = dateObject.getUTCDate();
+    var month = dateObject.getUTCMonth() + 1;
+    var year = dateObject.getUTCFullYear();
+    var formattedDate = (day < 10 ? '0' : '') + day + '/' +
+                        (month < 10 ? '0' : '') + month + '/' +
+                        year;
+    return formattedDate;
+}
 // const {checkProjectInDb}
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
 //    
-    res.status(200).json(list);
+    res.status(200).json({
+       ListProjects: list
+    });
 }
 
 const getListProjectsBy= async (req, res) => {
@@ -327,8 +339,18 @@ const getDeletePage = async (req, res) => {
 const postDeleteProject = async (req, res) => {
     try {
         const proId = req.params.id;
+        const proStatus = req.params.status;
+        // const pro = await getProjectById(proId);
+        if (proStatus === 'NEW'){
+            const rs =  await deleteProjectById(proId);
+        }else{
+            return res.status(404).json({
+                err: 1,
+                mes: 'Delete project is accept with only status NEW'
+            })
+            
+        }
         
-       const rs =  await deleteProjectById(proId);
          
         if (rs.affectedRows == 0){
             return res.status(200).json({
@@ -345,6 +367,36 @@ const postDeleteProject = async (req, res) => {
     }
  
 }
+
+const deleteManyProjects = async (req, res)=>{
+    try {
+        let ms= 0;;
+       const ListProjects = req.body;
+       for (const project of ListProjects){
+         if (project.status != 'NEW'){
+            ms++;
+         }else{
+            let proId = project.id;
+            await deleteProjectById(proId);
+         }
+       }
+       if (ms >0){
+        return res.status(200).json({
+            err: 1,
+            message:  `Not deleted ${ms} projects because these status isn't NEW`
+        })
+       }else{
+        return res.status(200).json({
+            err: 1,
+            message:  `Deleted all selected projects`
+        })
+       }
+
+    }catch (err) {
+        internalServerError(res);
+    }
+
+}
 module.exports = {
     getListProjects,
     postCreateProject,
@@ -353,5 +405,6 @@ module.exports = {
     postUpdateProject,
     postDeleteProject,
     getDeletePage,
-    getListProjectsBy
+    getListProjectsBy,
+    deleteManyProjects
 }

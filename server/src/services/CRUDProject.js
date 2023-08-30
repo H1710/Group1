@@ -2,7 +2,9 @@ const connection = require('../config/db')
 
 const getAllProjects = async () => {
     let [results, fields] = await connection.query(
-        `SELECT * FROM project`
+        `SELECT *
+        FROM project p
+        ORDER BY p.project_number ASC`
     );
     return results;
 }
