@@ -186,7 +186,7 @@ status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
 const getListGroups =async (req, res) => {
    try{ 
     const listGroupsId = await getAllGroup();
-    return res.status(200).json(listGroupsId);
+    return res.status(200).json({list: listGroupsId});
 }catch(e){
     internalServerError(res);
 }

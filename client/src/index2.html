@@ -61,16 +61,21 @@
                 <hr class="w-[830px]">
 
                 <div class="mt-7">
-                    <form class="flex" action="">
-                        <input class="rounded-lg border-gray-400 w-[450px] h-[30px] placeholder-gray-500 border" type="text" placeholder="Project number, name, customer name">
-                        <select class="rounded-lg border-gray-400 w-[250px] h-[30px] placeholder-gray-500 border ml-5" name="" id=""></select>
-                        <button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[20px] h-[30px] border border-blue-700 rounded ml-10">Search Project</button>
-                        <Button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[20px] h-[30px] border border-blue-700 rounded ml-10">Reset Search</Button>
+                    <form class="flex" action="#" id="form-2">
+                        <input class="rounded-lg border-gray-400 w-[450px] h-[38px] placeholder-gray-500 border" type="text" placeholder="Project number, name, customer name" id="search-input">
+                        <select onchange="updateInput()" class="rounded-lg border-gray-400 w-[250px] h-[38px] placeholder-gray-500 border ml-5" name="" id="select">
+                            <option id="project_number" value="project_number">Project Number</option>
+                            <option id="status" value="status">Status</option>
+                            <option id="customer" value="customer">Customer</option>
+                            <option id="name" value="name">Project Name</option>
+                        </select>
+                        <button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[20px]  border border-blue-700 rounded ml-10" type="button" onclick="searchProject()">Search Project</button>
+                        <button class="bg-[#2F85FA] hover:bg-blue-700 text-white font-bold px-[20px]  border border-blue-700 rounded ml-10" type="button" onclick="resetSearch()">Reset Search</button>
                     </form>
                 </div>
 
 
-                <table class="border mt-9">
+                <table class="border mt-9" id="data-container">
                     <th>
                         <td class="border-l border-b text-center">Number</td>
                         <td class="border-l border-b text-center">Name</td>
@@ -79,18 +84,6 @@
                         <td class="border-l border-b text-center">Start Date</td>
                         <td class="border-l border-b text-center">Delete</td>
                     </th>
-                    <tr class="">
-                        <td class="border-l w-[40px] h-[15px] border-t text-center"><input type="checkbox" name="" id=""></td>
-                        <td class="border-l w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">3116</td>
-                        <td class="border-l w-[550px] text-center font-sans text-[14px] font-semibold text-[#666666]">Facturation/Encaissements</td>
-                        <td class="border-l w-[200px] text-center font-sans text-[14px] font-semibold text-[#666666]">New</td>
-                        <td class="border-l w-[350px] text-center font-sans text-[14px] font-semibold text-[#666666]">Les Retaites Popularies</td>
-                        <td class="border-l w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">25.02.2004</td>
-                        <td class="border-l w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]"><button><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                          </svg>
-                          </button></td>
-                    </tr>
                 </table>
                 <table class="border mt-8 float-right">
                     <tr>
@@ -111,5 +104,6 @@
             </div>
         </div>
     </div>
+      <script src="script.js"></script>
 </body>
 </html>
