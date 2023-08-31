@@ -30,9 +30,13 @@ function formatDateToDDMMYYYY(isoDateString) {
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
 //    
+
     res.status(200).json(
         list
     );
+
+    res.status(200).json(list);
+
 }
 
 const getListProjectsBy= async (req, res) => {
@@ -44,9 +48,7 @@ const getListProjectsBy= async (req, res) => {
          const number = req.body['project_number'];
         //  console.log(namep, customerp,statusp,number);
          const pro = await getProjectsBy(namep, statusp, customerp, number);
-         return res.status(200).json({
-            ListProjects: pro,
-         })
+         return res.status(200).json(pro)
     }catch (err) {
         internalServerError(res);
              
@@ -66,6 +68,7 @@ const postCreateProject = async (req, res) => {
   
       
 
+
     group_id = req.body.group_id,
     project_number= req.body.project_number,
     name = req.body.name,
@@ -78,6 +81,19 @@ const postCreateProject = async (req, res) => {
         console.log(project_number, name, customer, status, startDate, endDate, members);
 //    if (version === undefined) version =1;
     const version = 1;
+
+    
+        group_id = req.body.group,
+        project_number= req.body.project-number,
+        name = req.body.project-name,
+        customer= req.body.customer,
+        status = req.body.status,
+        startDate= req.body.startdate,
+        endDate= req.body.enddate,
+        version= req.body.version,
+        members= req.body.member
+   if (version === undefined) version =1;
+
     const endDateValid = endDate ? formatDateToYYYYMMDD(endDate): null;
     const { error, value } = isValidProject.validate({
         group_id: group_id,
@@ -228,8 +244,10 @@ const postUpdateProject = async (req, res) => {
             version,
             members
         } = req.body;
-        const endDateValid = endDate ? formatDateToYYYYMMDD(endDate): null;
-
+        const endDateValid = endDate.trim() != '' ? formatDateToYYYYMMDD(endDate.trim()): null;
+        if (proId === undefined) {
+           internalServerError(res);
+        }
         const { error, value } = isValidProject.validate({
             // proId: proId,
             group_id: group_id,
@@ -239,7 +257,7 @@ const postUpdateProject = async (req, res) => {
             customer: customer.trim(),
             status: status,
             start_date: formatDateToYYYYMMDD(startDate),
-            end_date: endDateValid,
+            end_date: endDateValid.trim(),
             version: version,
         });
 
