@@ -61,17 +61,17 @@ const postCreateProject = async (req, res) => {
    try {
   
       
-    const {
-        group_id,
-        project_number,
-        name,
-        customer,
-        status,
-        startDate,
-        endDate,
-        version,
-        members
-    } = req.body;
+    
+        group_id = req.body.group,
+        project_number= req.body.project-number,
+        name = req.body.project-name,
+        customer= req.body.customer,
+        status = req.body.status,
+        startDate= req.body.startdate,
+        endDate= req.body.enddate,
+        version= req.body.version,
+        members= req.body.member
+   if (version === undefined) version =1;
     const endDateValid = endDate ? formatDateToYYYYMMDD(endDate): null;
     const { error, value } = isValidProject.validate({
         group_id: group_id,
