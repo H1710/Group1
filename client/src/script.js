@@ -134,12 +134,17 @@ fetch('http://localhost:3000/api/v1/project/')
     //icon delete
     function toggleDeleteIcon(checkboxId) {
         const checkbox = document.getElementById(checkboxId);
-        const deleteButton = checkbox.closest('td').querySelector('.delete-button');
-    
+        const deleteButton = document.querySelector('.delete-button');
+
+        console.log(checkbox)
+        console.log(deleteButton)
+        
         if (checkbox.checked) {
-            deleteButton.style.display = 'block';
+            deleteButton.classList.remove('none');
+            deleteButton.classList.add('block');
         } else {
-            deleteButton.style.display = 'none';
+            deleteButton.classList.add('none');
+            deleteButton.classList.remove('block');
         }
     }
     
