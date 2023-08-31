@@ -30,9 +30,9 @@ function formatDateToDDMMYYYY(isoDateString) {
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
 //    
-    res.status(200).json({
-       ListProjects: list
-    });
+    res.status(200).json(
+        list
+    );
 }
 
 const getListProjectsBy= async (req, res) => {
@@ -65,17 +65,19 @@ const postCreateProject = async (req, res) => {
    try {
   
       
-    const {
-        group_id,
-        project_number,
-        name,
-        customer,
-        status,
-        startDate,
-        endDate,
-        version,
-        members
-    } = req.body;
+
+    group_id = req.body.group_id,
+    project_number= req.body.project_number,
+    name = req.body.name,
+    customer= req.body.customer,
+    status = req.body.status,
+    startDate= req.body.startDate,
+    endDate= req.body.endDate,
+    // version= req.body.version,
+    members= req.body.members
+        console.log(project_number, name, customer, status, startDate, endDate, members);
+//    if (version === undefined) version =1;
+    const version = 1;
     const endDateValid = endDate ? formatDateToYYYYMMDD(endDate): null;
     const { error, value } = isValidProject.validate({
         group_id: group_id,
@@ -161,9 +163,9 @@ const postCreateProject = async (req, res) => {
   
 console.log('22222')
 console.log(new_group_id, project_number, name, customer.trim(), 
-status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
+status, formatDateToYYYYMMDD(startDate),endDateValid, version)
     const rs= await createProject(new_group_id, project_number, name, customer.trim(), 
-        status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
+        status, startDate, endDateValid, version)
       ///chua insert thanh vien cuar grp cos san vafo prj)emps  
       console.log("================================")
       console.log(rs)
@@ -186,7 +188,7 @@ status, formatDateToYYYYMMDD(startDate),endDateValid, version.trim())
 const getListGroups =async (req, res) => {
    try{ 
     const listGroupsId = await getAllGroup();
-    return res.status(200).json({list: listGroupsId});
+    return res.status(200).json(listGroupsId);
 }catch(e){
     internalServerError(res);
 }
