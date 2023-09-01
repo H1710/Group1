@@ -86,8 +86,8 @@ const postCreateProject = async (req, res) => {
         name: name.trim(),
         customer: customer.trim(),
         status: status.trim(),
-        start_date: formatDateToYYYYMMDD(startDate),
-        end_date: endDateValid ,
+        start_date: startDate,
+        end_date: endDate ,
         version: version,
     });
    //check required fields
@@ -163,7 +163,7 @@ const postCreateProject = async (req, res) => {
   
 console.log('22222')
 console.log(new_group_id, project_number, name, customer.trim(), 
-status, formatDateToYYYYMMDD(startDate),endDateValid, version)
+status, startDate, endDate, version)
     const rs= await createProject(new_group_id, project_number, name, customer.trim(), 
         status, startDate, endDateValid, version)
       ///chua insert thanh vien cuar grp cos san vafo prj)emps  
@@ -238,8 +238,8 @@ const postUpdateProject = async (req, res) => {
             name: name.trim(),
             customer: customer.trim(),
             status: status,
-            start_date: formatDateToYYYYMMDD(startDate),
-            end_date: endDateValid,
+            start_date: startDate,
+            end_date: endDate,
             version: version,
         });
 
