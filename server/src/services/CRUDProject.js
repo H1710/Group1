@@ -45,25 +45,28 @@ const createProject = async (group_id, project_number, name, customer,
         console.log('333333333')
         let [results, fields] = await connection.query(
             ` INSERT INTO project (  group_id, project_number, name, customer, 
-                status, start_date, end_date, version) values (?,?,?,?,?,?,null,?)`,
+                status, start_date,  version) values (?,?,?,?,?,?,?)`,
             [ group_id, project_number, name, customer, 
                 status, startDate, version]
             );
-             
+             console.log(results)
             return results.affectedRows;
-     }else
+     }
+     else
         { 
-            console.log('44444')
+            console.log('4444444')
             let [results, fields] = await connection.query(
-        ` INSERT INTO project (  group_id, project_number, name, customer, 
+        `INSERT INTO project (  group_id, project_number, name, customer, 
             status, start_date, end_date, version) values (?,?,?,?,?,?,?,?)`,
         [ group_id, project_number, name, customer, 
             status, startDate, endDate, version]
         );
-         
-        return results.affectedRows;}
+         console.log(results);
+        return results.affectedRows;
+    }
     
 }
+
 const updateProjectById = async (proId,  group_id, name, customer, 
     status, startDate, endDate,version) => {
        
@@ -80,7 +83,8 @@ const updateProjectById = async (proId,  group_id, name, customer,
         );
         return results;
     }else {
-    //     console.log("2");
+        console.log("2");
+        console.log(version);
         let  [results, fields] = await connection.query(
             `UPDATE project
              SET   group_id = ?, name =?,  customer = ? ,

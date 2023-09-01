@@ -24,7 +24,7 @@ router.post('/update',  postUpdateProject);
 
 router.post('/delete/',  deleteManyProjects);
 
-router.delete('/delete/:id',  postDeleteProject);
+router.get('/delete/:id/:status',  postDeleteProject);
 
 
 
