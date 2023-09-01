@@ -112,7 +112,7 @@ function handleCreateButton(formElement) {
                 }
                 if (input.name === 'startDate' && input.value.trim() === '') {
                     addRedBorder(input);
-                    displayErrorMessage(input, '');
+                    displayErrorMessage(input, ''); // cần required start date hong đc lớn hơn hiện tại
                     isValid = false;
                 }
                 if (input.name === 'endDate' && input.value.trim() === '') {
@@ -120,6 +120,20 @@ function handleCreateButton(formElement) {
                     displayErrorMessage(input, 'EndDate required.');
                     isValid = false;
                 }
+
+                var startDateInput = formElement.querySelector('input[name="startDate"]');
+                var endDateInput = formElement.querySelector('input[name="endDate"]');
+                    if(startDateInput && endDateInput) {
+                        var startDate = new Date(startDateInput.value);
+                        var endDate = new Date(endDateInput.value);
+    
+                        if (startDate > endDate) {
+                            addRedBorder(startDateInput);
+                            addRedBorder(endDateInput);
+                            displayErrorMessage(endDateInput, 'EndDate must be greater than or equal to StartDate.');
+                            isValid = false;
+                        }
+                    }
 
                 // Add similar validation for other fields as needed
             });
@@ -150,7 +164,7 @@ function handleCreateButton(formElement) {
 
 function displayErrorMessage(input, message) {
     var formMessage = input.nextElementSibling;
-    formMessage.innerText = message;
+    formMessage.textContent = message;
 
 }
 
@@ -177,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 var option = document.createElement('option');
                 option.classList.add('text-center');
                 option.value = group.id; // Giá trị của tùy chọn
-                option.innerText = group.id; // Nội dung của tùy chọn
+                option.textContent = group.id; // Nội dung của tùy chọn
                 groupSelect.appendChild(option);
             });
         })
@@ -185,3 +199,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching groups:', error);
         });
 });
+
+
+
+    
+    
+    
+    
+    
+    

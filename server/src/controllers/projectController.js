@@ -22,7 +22,9 @@ const { version } = require('joi');
 const getListProjects = async (req, res) => {
      const list = await getAllProjects()
 //    
-    res.status(200).json(list);
+    res.status(200).json(
+        list
+    );
 }
 
 const getListProjectsBy= async (req, res) => {
@@ -34,7 +36,9 @@ const getListProjectsBy= async (req, res) => {
          const number = req.body['project_number'];
         //  console.log(namep, customerp,statusp,number);
          const pro = await getProjectsBy(namep, statusp, customerp, number);
-         return res.status(200).json(pro)
+         return res.status(200).json({
+            ListProjects: pro,
+         })
     }catch (err) {
         internalServerError(res);
              
