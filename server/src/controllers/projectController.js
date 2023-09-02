@@ -30,12 +30,47 @@ const getListProjects = async (req, res) => {
 const getListProjectsBy= async (req, res) => {
      
      try {
-         const namep = req.body['name'];
-         const statusp= req.body['status'];
-         const customerp = req.body['customer'];
-         const number = req.body['project_number'];
-        //  console.log(namep, customerp,statusp,number);
-         const pro = await getProjectsBy(namep, statusp, customerp, number);
+        const searchBy = req.body.searchBy;
+        const value = req.body.value.toUpperCase();
+        console.log(searchBy, value);   
+        let namep = '';
+        let numberp = '';
+        let status = '';
+        let customerp = '';
+        switch (searchBy) {
+            case 'status':
+                namep = '';
+                customerp = '';
+                numberp = '';
+                status = value;
+                break;
+                 
+            case 'name':
+                namep = value;
+                customerp = '';
+                numberp = '';
+                status =  '';
+                break;
+            case 'customer':
+                namep = '';
+                customerp = value;
+                numberp = '';
+                status = '';
+                break;
+            case 'project_number':
+                console.log('111')
+                namep = '';
+                customerp = '';
+                numberp =value;
+                status = '';
+                break;
+            default: break;
+
+        }
+
+         
+         console.log(namep, customerp,status,numberp);
+         const pro = await getProjectsBy(namep, status, customerp, numberp);
          return res.status(200).json({
             ListProjects: pro,
          })
@@ -48,13 +83,19 @@ const getListProjectsBy= async (req, res) => {
 function formatDate(inputDate) {
     console.log(inputDate)
     const parts = inputDate.split('/');
-    if (parts.length > 0) {
-      const day = parts[0];
-      const month = parts[1];
-      const year = parts[2];
+    const partOthers = inputDate.split('-');
+    if (parts.length > 2) {
+      let day = parts[0];
+      let month = parts[1];
+      let year = parts[2];
       return `${year}-${month}-${day}`;
+    }else if (  partOthers.length > 2) {
+        let day = partOthers[2];
+        let month = partOthers[1];
+        let year = partOthers[0];
+         return `${year}-${month}-${day}`;
     }else {
-        return inputDate;
+        return null;
     }
   }
 const postCreateProject = async (req, res) => {
@@ -159,11 +200,11 @@ const postCreateProject = async (req, res) => {
     } 
     console.log('********************************')
     console.log(new_group_id, project_number, name, customer.trim(), 
-    status,startDate,endDate, version)
-
+    status,formatDate(startDate), formatDate(endDate), version)
+     
     console.log('22222')
     const rs= await createProject(new_group_id, project_number, name, customer.trim(), 
-        status,startDate, endDate, version)
+        status,formatDate(startDate), formatDate(endDate), version)
       ///chua insert thanh vien cuar grp cos san vafo prj)emps  
       console.log("================================")
       console.log(rs)
