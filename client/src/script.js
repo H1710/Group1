@@ -166,6 +166,7 @@ function handleCreateButton(formElement) {
                         alert('Create Success!!!');
                     }else{
                         alert(data.mes);
+                        location.reload();
                     }
                 })
                 .catch(error => {
