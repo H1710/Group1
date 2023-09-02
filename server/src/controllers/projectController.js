@@ -71,9 +71,7 @@ const getListProjectsBy= async (req, res) => {
          
          console.log(namep, customerp,status,numberp);
          const pro = await getProjectsBy(namep, status, customerp, numberp);
-         return res.status(200).json({
-            ListProjects: pro,
-         })
+         return res.status(200).json(pro)
     }catch (err) {
         internalServerError(res);
              
