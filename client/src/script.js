@@ -112,14 +112,24 @@ function handleCreateButton(formElement) {
                 }
                 if (input.name === 'startDate' && input.value.trim() === '') {
                     addRedBorder(input);
-                    displayErrorMessage(input, ''); // cần required start date hong đc lớn hơn hiện tại
+                    displayErrorMessage(input, 'StartDate is required.'); // cần required start date hong đc lớn hơn hiện tại
                     isValid = false;
                 }
-                if (input.name === 'endDate' && input.value.trim() === '') {
-                    addRedBorder(input);
-                    displayErrorMessage(input, 'EndDate required.');
-                    isValid = false;
+                if (input.name === 'startDate' && input.value.trim() !== '') {
+                    var currentDate = new Date(); // Lấy ngày hiện tại
+                    var startDate = new Date(input.value);
+
+                    if (startDate > currentDate) {
+                        addRedBorder(input);
+                        displayErrorMessage(input, 'StartDate cannot be in the future.');
+                        isValid = false;
+                    }
                 }
+                // if (input.name === 'endDate' && input.value.trim() === '') {
+                //     addRedBorder(input);
+                //     displayErrorMessage(input, 'EndDate required.');
+                //     isValid = false;
+                // }
 
                 var startDateInput = formElement.querySelector('input[name="startDate"]');
                 var endDateInput = formElement.querySelector('input[name="endDate"]');
@@ -152,7 +162,11 @@ function handleCreateButton(formElement) {
                 .then(data => {
                     // Xử lý dữ liệu trả về từ API nếu cần
                     console.log('Created project:', data);
-                    
+                    if(data.err === '0'){
+                        alert('Create Success!!!');
+                    }else{
+                        alert(data.mes);
+                    }
                 })
                 .catch(error => {
                     console.log('Error creating project:', error); // validate lỗi
@@ -163,10 +177,13 @@ function handleCreateButton(formElement) {
 }
 
 function displayErrorMessage(input, message) {
-    var formMessage = input.nextElementSibling;
+    var formGroup = input.closest('.form-group'); // Tìm phần tử gần nhất với lớp 'form-group'
+    var formMessage = formGroup.querySelector('.form-message'); // Tìm thẻ span trong phần tử form-group
+    formMessage.classList.remove('hidden');
+    formMessage.classList.add('block');
     formMessage.textContent = message;
-
 }
+
 
 function addRedBorder(input) {
     input.classList.add('invalid:border-pink-500');

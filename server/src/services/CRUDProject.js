@@ -55,6 +55,8 @@ const createProject = async (group_id, project_number, name, customer,
      else
         { 
             console.log('4444444')
+            console.log(group_id, project_number, name, customer, 
+                status, startDate, endDate, version);
             let [results, fields] = await connection.query(
         `INSERT INTO project (  group_id, project_number, name, customer, 
             status, start_date, end_date, version) values (?,?,?,?,?,?,?,?)`,
