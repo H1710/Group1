@@ -24,40 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// function handleCreateButton(formElement) {
-//     var createButton = formElement.querySelector('button[name="submit"][value="create"]');
-//     if (createButton) {
-//         createButton.addEventListener('click', function(event) {
-//             event.preventDefault();
-//             console.log("Create Project button clicked");
-
-//             var inputFields = formElement.querySelectorAll('input[name], select[name]');
-//             var inputValues = {};
-//             inputFields.forEach(function(input) {
-//                 inputValues[input.name] = input.value;
-//             });
-
-//             console.log("Input values:", inputValues);
-
-//             fetch('http://localhost:3000/api/v1/project/create', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json'
-//                 },
-//                 body: JSON.stringify(inputValues)
-//             })
-//             .then(response => response.json())
-//             .then(data => {
-//                 // Xử lý dữ liệu trả về từ API nếu cần
-//                 console.log('Created project:', data);
-                
-//             })
-//             .catch(error => {
-//                 console.log('Error creating project:', error); // validate lỗi
-//             });
-//         });
-//     }
-// }
 
 function handleCreateButton(formElement) {
     var createButton = formElement.querySelector('button[name="submit"][value="create"]');
@@ -125,11 +91,6 @@ function handleCreateButton(formElement) {
                         isValid = false;
                     }
                 }
-                // if (input.name === 'endDate' && input.value.trim() === '') {
-                //     addRedBorder(input);
-                //     displayErrorMessage(input, 'EndDate required.');
-                //     isValid = false;
-                // }
 
                 var startDateInput = formElement.querySelector('input[name="startDate"]');
                 var endDateInput = formElement.querySelector('input[name="endDate"]');
@@ -150,7 +111,6 @@ function handleCreateButton(formElement) {
 
             if (isValid) {
                 console.log("Input values:", inputValues);
-
                 fetch('http://localhost:3000/api/v1/project/create', {
                     method: 'POST',
                     headers: {
@@ -162,27 +122,40 @@ function handleCreateButton(formElement) {
                 .then(data => {
                     // Xử lý dữ liệu trả về từ API nếu cần
                     console.log('Created project:', data);
-                    if(data.err === '0'){
-                        alert('Create Success!!!');
+                    if(data.mes == 'success'){
+                        showSuccessToast();
+                        setTimeout(function() {
+                            location.reload();
+                        }, 5000);
                     }else{
-                        alert(data.mes);
-                        location.reload();
+                        showErrorToast1(data.mes);
                     }
                 })
                 .catch(error => {
                     console.log('Error creating project:', error); // validate lỗi
                 });
+            }else{
+                showErrorToast();
             }
         });
+                // Thêm sự kiện input cho mỗi trường input
+                var inputFields = formElement.querySelectorAll('input[name], select[name]');
+                inputFields.forEach(function(input) {
+                    input.addEventListener('input', function() {
+                        var formGroup = input.closest('.form-group');
+                        var formMessage = formGroup.querySelector('.form-message');
+                        formMessage.textContent = ''; // Ẩn thông báo lỗi khi người dùng nhập liệu
+                    });
+                });
     }
 }
 
 function displayErrorMessage(input, message) {
-    var formGroup = input.closest('.form-group'); // Tìm phần tử gần nhất với lớp 'form-group'
+    var formGroup = input.closest('.form-group'); 
     var formMessage = formGroup.querySelector('.form-message'); // Tìm thẻ span trong phần tử form-group
-    formMessage.classList.remove('hidden');
-    formMessage.classList.add('block');
-    formMessage.textContent = message;
+        formMessage.classList.remove('hidden');
+        formMessage.classList.add('block');
+        formMessage.textContent = message;
 }
 
 
@@ -218,6 +191,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 });
 
+
+
+// Toast function
+function toast({ title = "", message = "", type = "info", duration = 3000 }) {
+    const main = document.getElementById("toast");
+    if (main) {
+      const toast = document.createElement("div");
+  
+      // Auto remove toast
+      const autoRemoveId = setTimeout(function () {
+        main.removeChild(toast);
+      }, duration + 1000);
+  
+      // Remove toast when clicked
+      toast.onclick = function (e) {
+        if (e.target.closest(".toast__close")) {
+          main.removeChild(toast);
+          clearTimeout(autoRemoveId);
+        }
+      };
+  
+      const icons = {
+        success: "fas fa-check-circle",
+        info: "fas fa-info-circle",
+        warning: "fas fa-exclamation-circle",
+        error: "fas fa-exclamation-circle"
+      };
+      const icon = icons[type];
+      const delay = (duration / 1000).toFixed(2);
+  
+      toast.classList.add("toast", `toast--${type}`);
+      toast.style.animation = `slideInLeft ease .3s, fadeOut linear 1s ${delay}s forwards`;
+  
+      toast.innerHTML = `
+                      <div class="toast__icon">
+                          <i class="${icon}"></i>
+                      </div>
+                      <div class="toast__body">
+                          <h3 class="toast__title">${title}</h3>
+                          <p class="toast__msg">${message}</p>
+                      </div>
+                      <div class="toast__close">
+                          <i class="fas fa-times"></i>
+                      </div>
+                  `;
+      main.appendChild(toast);
+    }
+}
+
+function showSuccessToast() {
+    console.log(1)
+    toast({
+      title: "Success!",
+      message: "You have successfully created the project !!!",
+      type: "success",
+      duration: 3000
+    });
+  }
+
+  function showErrorToast() {
+    console.log(2)
+    toast({
+      title: "Failed!",
+      message: "Please to fill all required !!!",
+      type: "error",
+      duration: 3000
+    });
+  }
+
+  function showErrorToast1(message) {
+    console.log(2)
+    toast({
+      title: "Failed!",
+      message: message,
+      type: "error",
+      duration: 3000
+    });
+  }
+  
 
 
     

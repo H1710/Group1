@@ -14,11 +14,11 @@
                 const dataContainer = document.getElementById('data-container');
                 data.map(element => {
                     var startDate = element.start_date.slice(0,10);
-                    console.log (startDate)
+                    // console.log (startDate)
                     if(element.status === "NEW"){
                         const exportdata = document.createElement('tr');                                                
                             exportdata.innerHTML = `
-                            <td class="border-l w-[40px] h-[15px] border-t text-center">
+                            <td class="border-l w-[40px] h-[15px] border-t text-center py-[8px]">
                             <input type="checkbox" name="" id="${element.id}">
                             </td>
                             <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.project_number}</td>
@@ -46,7 +46,7 @@
                         const exportdata = document.createElement('tr');
                         exportdata.innerHTML = `
                         <td class="border-l w-[40px] h-[15px] border-t text-center  py-[8px]">
-                        <input type="checkbox" name="" id="${element.id}" onclick="toggleDeleteIcon(${element.id})">
+                        <input type="checkbox" name="" id="${element.id}">
                         </td>
                         <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.project_number}</td>
                         <td class="border-l border-b w-[250px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.name}</td>
@@ -72,12 +72,99 @@
                     }
                     loadComplete = true;
                 });
+                   
+                var selectedIds = [];
+                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+                // console.log(checkboxes)
+                var animationData = document.querySelector('#animation-checkdata');
+                animationData.style.display = 'none';
+                var checkDataContainer = document.querySelector('#checkdata-container');
+                var selectedCountElement = document.createElement('div');
+                selectedCountElement.id = 'selectedCount';
+                var deleteAllButton = document.createElement('button');
+                deleteAllButton.id = 'deleteAllButton';
+                // deleteAllButton.style.display = 'none'; // Ẩn nút ban đầu
+                // checkDataContainer.style.display = 'none'
+                selectedCountElement.textContent = '0 checkboxes selected';
+                deleteAllButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>                  
+                `;
+
+                checkDataContainer.appendChild(selectedCountElement);
+                checkDataContainer.appendChild(deleteAllButton);
+
+                var selectedCount = 0;
+
+                checkboxes.forEach(function (checkbox) {                    
+                    checkbox.addEventListener('click', function () {
+                        if (checkbox.checked) {
+                            selectedCount++;
+                            selectedIds.push(checkbox.id);
+                            console.log(selectedIds)
+                        } else {
+                            selectedCount--;
+                            selectedIds = selectedIds.filter(function (id) {
+                                return id !== checkbox.id;
+                            });
+                            console.log(selectedIds)
+                        }
+
+                        selectedCountElement.textContent = `${selectedCount} checkboxes selected`;
+
+                        if (selectedCount > 0) {
+                            // deleteAllButton.style.display = 'block';
+                            animationData.style.display = 'block';
+                        } else {
+                            // deleteAllButton.style.display = 'none';
+                            animationData.style.display = 'none';
+                        }
+                    });
+                });
+
+
+                deleteAllButton.addEventListener('click', function () {
+                    if (selectedIds.length > 0) {
+                        handleDeleteAllClick(selectedIds);
+                        // console.log(selectedIds)
+                    }
+                });
+
+
+
+
         })
         .catch(error => {
             // Handle errors
             console.error('There was a problem with the fetch operation:', error);
         });
     }
+
+    // Xử lý sự kiện khi nút "Xóa Tất Cả" được nhấp
+    function handleDeleteAllClick(selectedIds) {
+        if (selectedIds.length === 0) {
+            console.log('No projects selected for deletion.');
+            return;
+        }
+    
+        // Xác nhận với người dùng trước khi xóa
+        var confirmation = confirm('Bạn có chắc chắn muốn xóa các dự án đã chọn?');
+        if (!confirmation) {
+            return; 
+        }
+        
+        // Gửi yêu cầu xóa từng dự án dựa trên selectedIds
+        selectedIds.forEach(function (projectId) {
+            // Gửi yêu cầu xóa dự án với projectId lên máy chủ
+            // Sử dụng projectId để xác định dự án cần xóa
+            console.log('Deleting project with ID:', projectId);
+            // Đảm bảo xóa thành công trước khi cập nhật giao diện
+        });
+        // dataContainer.removeChild(exportdata)
+    }
+    
 
     function hideContent() {
         const dataContainer = document.getElementById('data-container');
@@ -158,7 +245,7 @@
                             const exportdata = document.createElement('tr');
                             exportdata.innerHTML = `
                             <td class="border-l w-[40px] h-[15px] border-t text-center">
-                            <input type="checkbox" name="" id="${element.id}" onclick="toggleDeleteIcon(${element.id})">
+                            <input type="checkbox" name="" id="${element.id}">
                             </td>
                             <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.project_number}</td>
                             <td class="border-l border-b w-[550px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.name}</td>
@@ -207,21 +294,6 @@
 
         const inputElement = document.getElementById('search-input');
         inputElement.placeholder = `Search by ${selectedValue.replace('_', ' ')}`;
-    }
-
-
-    //icon delete
-    function toggleDeleteIcon(checkboxId) {
-        const checkbox = document.getElementById(checkboxId);
-        const deleteButton = checkbox.closest('td').querySelector('.delete-button');
-    
-        if (checkbox.checked) {
-            deleteButton.classList.remove = 'hidden';
-            deleteButton.classList.add = 'block';
-        } else {
-            deleteButton.classList.remove = 'hidden';
-            deleteButton.classList.add = 'block';
-        }
     }
 
 
