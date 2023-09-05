@@ -454,6 +454,7 @@ const deleteManyProjects = async (req, res)=>{
     try {
         let ms= 0;;
        const ListProjects = req.body;
+       console.log(ListProjects)
        for (const project of ListProjects){
          if (project.status != 'NEW'){
             ms++;
