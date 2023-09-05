@@ -104,13 +104,12 @@
                         if (checkbox.checked) {
                             selectedCount++;
                             selectedIds.push({ id: checkbox.id, status: checkbox.name });
-                        
                         } else {
                             selectedCount--;
-                            selectedIds = selectedIds.filter(function (id) {
-                                return id !== checkbox.id;
+                            selectedIds = selectedIds.filter(function (item) {
+                                return item.id !== checkbox.id;
                             });
-                            console.log(selectedIds)
+                            console.log(selectedIds);
                         }
 
                         selectedCountElement.textContent = `${selectedCount} checkboxes selected`;
@@ -190,6 +189,7 @@
                 console.log(response.json())
                 if (response.ok) {
                     console.log('Deleted project with ID:', selectedIds);
+                    location.reload();
                 } else {
                     console.error('Failed to delete project with ID:', selectedIds);
                 }
