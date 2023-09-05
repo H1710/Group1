@@ -104,6 +104,7 @@ const deleteProjectById = async (proId) => {
     let [results, fields] = await connection.query(
         `DELETE FROM project WHERE id =?`, [proId]
     );
+    console.log('here', results);
     return results;
 }
     

@@ -463,13 +463,16 @@ const deleteManyProjects = async (req, res)=>{
             await deleteProjectById(proId);
          }
        }
-       if (ms >0){
-        return res.status(200).json({
+       console.log(ms)
+       if (ms != 0){
+        console.log('----------------------------------------------------------------')
+        return res.status(404).send({
             err: 1,
             mes:  `Not deleted ${ms} projects because these status isn't NEW`
-        })
+        });
+        
        }else{
-        return res.status(200).json({
+        return res.status(200).send({
             err: 1,
             mes :  `Deleted all selected projects`
         })
