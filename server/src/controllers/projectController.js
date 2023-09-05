@@ -470,10 +470,10 @@ const deleteManyProjects = async (req, res)=>{
             err: 1,
             mes:  `Not deleted ${ms} projects because these status isn't NEW`
         });
-        
+
        }else{
         return res.status(200).send({
-            err: 1,
+            err: 0,
             mes :  `Deleted all selected projects`
         })
        }
