@@ -125,7 +125,8 @@ const postCreateProject = async (req, res) => {
    //check required fields
     if (error) {
         return res.status(400).send({
-            message: error.details[0].message,
+            err: 1,
+            mes : error.details[0].message,
             'any.required': 'Please enter all the mandatory fields (*)'
         });
     }
@@ -134,7 +135,9 @@ const postCreateProject = async (req, res) => {
     const prj =  await getProjectsByNumber(project_number);
  
     if (prj !== null) {
-        return res.status(404).send({ mes: 'The project number already existed. Please select a different project number'  });
+        return res.status(404).send({
+            err: 1,
+             mes: 'The project number already existed. Please select a different project number'  });
     }
 
     console.log("--------")
@@ -144,7 +147,9 @@ const postCreateProject = async (req, res) => {
     //check end_date > start_date
     if ( endDate != '' && endDate != null ) {
         if (endDate < startDate){
-        return res.status(404).send({ mes: 'The end date must be more than start date'  });
+        return res.status(404).send({ 
+            err: 1,
+            mes: 'The end date must be more than start date'  });
 
         }
     }
@@ -163,7 +168,8 @@ const postCreateProject = async (req, res) => {
             // console.log(findEmp)
             if (findEmp === null) {
                 return res.status(404).send({
-                    message: `Cannot find Employee with given visa = ${VisaMem.trim()}.`  
+                    err: 1,
+                    mes: `Cannot find Employee with given visa = ${VisaMem.trim()}.`  
                 });
             } else {
                 listMembers.push(findEmp.id);
@@ -176,7 +182,8 @@ const postCreateProject = async (req, res) => {
          const isLeader = await getGroupByLeaderId(listMembers[0]);
          if (isLeader) {
             return res.status(404).send({
-                message: `This employee has a leader of other group.`  
+                err: 1,
+                mes: `This employee has a leader of other group.`  
             });
          }
          console.log(isLeader);
@@ -291,7 +298,8 @@ const postUpdateProject = async (req, res) => {
        //check required fields
         if (error) {
             return res.status(400).send({
-                message: error.details[0].message,
+                err: 1,
+                mes: error.details[0].message,
                 'any.required': 'Please enter all the mandatory fields (*)'
             });
         }
@@ -299,7 +307,9 @@ const postUpdateProject = async (req, res) => {
         //check end_date > start_date
         if ( endDate !='' && endDate !=null ) {
             if (endDate < startDate){
-            return res.status(404).send({ mes: 'The end date must be more than start date'  });
+            return res.status(404).send({ 
+                err: 1,
+                mes: 'The end date must be more than start date'  });
     
             }
         }
@@ -320,7 +330,8 @@ const postUpdateProject = async (req, res) => {
             console.log(findEmp)
             if (findEmp === null) {
                 return res.status(404).send({
-                    message: `Cannot find Employee with given visa = ${VisaMem.trim()}.`  
+                    err: 1,
+                    mes : `Cannot find Employee with given visa = ${VisaMem.trim()}.`  
                 });
             } else {
                 listMembers.push(findEmp.id);
@@ -333,7 +344,8 @@ const postUpdateProject = async (req, res) => {
         
          if (isLeader) {
             return res.status(404).send({
-                message: `This employee is a leader of other group.`  
+                err: 1,
+                mes : `This employee is a leader of other group.`  
             });
          }
           
@@ -354,7 +366,7 @@ console.log(proId,new_group_id, name, customer,
             
            return res.status(200).send({
                 err: 0,
-                message: "Project was updated successfully.",
+                mes : "Project was updated successfully.",
                 value:  value
             })
         
@@ -369,7 +381,7 @@ console.log(proId,new_group_id, name, customer,
         
             return res.status(200).send({
                 err: 0,
-                message: "Project was updated successfully.",
+                mes : "Project was updated successfully.",
                 value:  value
             })
      
@@ -435,12 +447,12 @@ const deleteManyProjects = async (req, res)=>{
        if (ms >0){
         return res.status(200).json({
             err: 1,
-            message:  `Not deleted ${ms} projects because these status isn't NEW`
+            mes:  `Not deleted ${ms} projects because these status isn't NEW`
         })
        }else{
         return res.status(200).json({
             err: 1,
-            message:  `Deleted all selected projects`
+            mes :  `Deleted all selected projects`
         })
        }
 
