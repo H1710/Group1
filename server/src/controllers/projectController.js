@@ -96,6 +96,17 @@ function formatDate(inputDate) {
         return null;
     }
   }
+
+function isDuplicate(arr){
+    const seen = [];
+    for(const id of arr){
+        if (seen.indexOf(id)){
+            return true;
+        }
+        seen.push(id);
+    }
+    return false;
+}
 const postCreateProject = async (req, res) => {
    try {
         group_id = req.body.group_id,
@@ -175,6 +186,13 @@ const postCreateProject = async (req, res) => {
                 listMembers.push(findEmp.id);
                 
             }
+        }
+        console.log('3333333333333')
+        if (isDuplicate(listMembers)) {
+            return res.status(404).send({
+                err :1,
+                mes: `Cannot create new Group with duplicate VISA`
+            })
         }
         console.log(listMembers)
         console.log(listMembers[0])
