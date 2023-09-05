@@ -14,12 +14,13 @@
                 const dataContainer = document.getElementById('data-container');
                 data.map(element => {
                     var startDate = element.start_date.slice(0,10);
+                    // console.log(element.start_date)
                     // console.log (startDate)
                     if(element.status === "NEW"){
                         const exportdata = document.createElement('tr');                                                
                             exportdata.innerHTML = `
                             <td class="border-l w-[40px] h-[15px] border-t text-center py-[8px]">
-                            <input type="checkbox" name="" id="${element.id}">
+                            <input type="checkbox" name="${element.status}" id="${element.id}">
                             </td>
                             <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.project_number}</td>
                             <td class="border-l border-b w-[250px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.name}</td>
@@ -46,7 +47,7 @@
                         const exportdata = document.createElement('tr');
                         exportdata.innerHTML = `
                         <td class="border-l w-[40px] h-[15px] border-t text-center  py-[8px]">
-                        <input type="checkbox" name="" id="${element.id}">
+                        <input type="checkbox" name="${element.status}" id="${element.id}">
                         </td>
                         <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.project_number}</td>
                         <td class="border-l border-b w-[250px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.name}</td>
@@ -102,8 +103,8 @@
                     checkbox.addEventListener('click', function () {
                         if (checkbox.checked) {
                             selectedCount++;
-                            selectedIds.push(checkbox.id);
-                            console.log(selectedIds)
+                            selectedIds.push({ id: checkbox.id, status: checkbox.name });
+                        
                         } else {
                             selectedCount--;
                             selectedIds = selectedIds.filter(function (id) {
@@ -143,6 +144,28 @@
     }
 
     // Xử lý sự kiện khi nút "Xóa Tất Cả" được nhấp
+    // function handleDeleteAllClick(selectedIds) {
+    //     if (selectedIds.length === 0 && selectedStatus === null) {
+    //         console.log('No projects selected for deletion.');
+    //         return;
+    //     }
+    
+    //     // Xác nhận với người dùng trước khi xóa
+    //     var confirmation = confirm('Bạn có chắc chắn muốn xóa các dự án đã chọn?');
+    //     if (!confirmation) {
+    //         return; 
+    //     }
+        
+    //     // Gửi yêu cầu xóa từng dự án dựa trên selectedIds
+    //     selectedIds.forEach(function (projectId) {
+    //         // Gửi yêu cầu xóa dự án với projectId lên máy chủ
+    //         // Sử dụng projectId để xác định dự án cần xóa
+    //         console.log('Deleting project with ID:', projectId);
+    //         // Đảm bảo xóa thành công trước khi cập nhật giao diện
+    //     });
+    //     // dataContainer.removeChild(exportdata)
+    // }
+
     function handleDeleteAllClick(selectedIds) {
         if (selectedIds.length === 0) {
             console.log('No projects selected for deletion.');
@@ -152,18 +175,30 @@
         // Xác nhận với người dùng trước khi xóa
         var confirmation = confirm('Bạn có chắc chắn muốn xóa các dự án đã chọn?');
         if (!confirmation) {
-            return; 
+            return;
         }
-        
+    
         // Gửi yêu cầu xóa từng dự án dựa trên selectedIds
-        selectedIds.forEach(function (projectId) {
-            // Gửi yêu cầu xóa dự án với projectId lên máy chủ
-            // Sử dụng projectId để xác định dự án cần xóa
-            console.log('Deleting project with ID:', projectId);
-            // Đảm bảo xóa thành công trước khi cập nhật giao diện
-        });
-        // dataContainer.removeChild(exportdata)
+            fetch('http://localhost:3000/api/v1/project/delete', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(selectedIds), 
+            })
+            .then(response => {
+                console.log(response.json())
+                if (response.ok) {
+                    console.log('Deleted project with ID:', selectedIds);
+                } else {
+                    console.error('Failed to delete project with ID:', selectedIds);
+                }
+            })
+            .catch(error => {
+                console.error('Error while sending delete request:', error);
+            });
     }
+    
     
 
     function hideContent() {
