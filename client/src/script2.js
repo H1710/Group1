@@ -142,28 +142,7 @@
         });
     }
 
-    // Xử lý sự kiện khi nút "Xóa Tất Cả" được nhấp
-    // function handleDeleteAllClick(selectedIds) {
-    //     if (selectedIds.length === 0 && selectedStatus === null) {
-    //         console.log('No projects selected for deletion.');
-    //         return;
-    //     }
-    
-    //     // Xác nhận với người dùng trước khi xóa
-    //     var confirmation = confirm('Bạn có chắc chắn muốn xóa các dự án đã chọn?');
-    //     if (!confirmation) {
-    //         return; 
-    //     }
-        
-    //     // Gửi yêu cầu xóa từng dự án dựa trên selectedIds
-    //     selectedIds.forEach(function (projectId) {
-    //         // Gửi yêu cầu xóa dự án với projectId lên máy chủ
-    //         // Sử dụng projectId để xác định dự án cần xóa
-    //         console.log('Deleting project with ID:', projectId);
-    //         // Đảm bảo xóa thành công trước khi cập nhật giao diện
-    //     });
-    //     // dataContainer.removeChild(exportdata)
-    // }
+
 
     function handleDeleteAllClick(selectedIds) {
         if (selectedIds.length === 0) {
@@ -245,7 +224,8 @@
                 // Xử lý dữ liệu kết quả tìm kiếm ở đây
                 console.log('Search results:', data); //
                 if(data === null){
-                    alert('List is null');
+                    var message = 'List search is null';
+                    showErrorToast1(message);
                 }else{
                     const dataContainer = document.getElementById('data-container');
                     const exportThData = document.createElement('tr');
