@@ -221,6 +221,9 @@
             })
             .then(response => response.json())
             .then(data => {
+
+                var startDate = element.start_date.slice(0,10);
+
                 // Xử lý dữ liệu kết quả tìm kiếm ở đây
                 console.log('Search results:', data); //
                 if(data === null){
@@ -250,7 +253,7 @@
                             <td class="border-l border-b w-[550px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.name}</td>
                             <td class="border-l border-b w-[200px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.status}</td>
                             <td class="border-l border-b w-[350px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.customer}</td>
-                            <td class="border-l border-b w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.start_date}</td>
+                            <td class="border-l border-b w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">${startDate}</td>
                             <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">
                                 <button class="delete-button" id="${element.id}" onclick="handleDeleteButtonClick(${element.id}, '${element.status}')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" color="#DC143C" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -270,7 +273,7 @@
                             <td class="border-l border-b w-[550px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.name}</td>
                             <td class="border-l border-b w-[200px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.status}</td>
                             <td class="border-l border-b w-[350px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.customer}</td>
-                            <td class="border-l border-b w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">${element.start_date}</td>
+                            <td class="border-l border-b w-[150px] text-center font-sans text-[14px] font-semibold text-[#666666]">${startDate}</td>
                             <td class="border-l border-b w-[100px] text-center font-sans text-[14px] font-semibold text-[#666666]">
                                 <button class="delete-button hidden" id="${element.id}" onclick="handleDeleteButtonClick(${element.id}, ${element.status})">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
